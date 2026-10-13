@@ -56,7 +56,7 @@ public class AquacultureFishingHookRenderer extends MaidFishingHookRenderer<Aqua
         AquacultureFishingHookRenderState state = (AquacultureFishingHookRenderState) baseState;
         poseStack.pushPose();
         poseStack.scale(0.5F, 0.5F, 0.5F);
-        poseStack.mulPose(camera.orientation);
+        poseStack.rotate(camera.orientation);
         submitNodeCollector.submitCustomGeometry(poseStack, state.hasBobber ? BOBBER_OVERLAY_RENDER : BOBBER_VANILLA_RENDER, (pose, buffer) -> {
             vertex(buffer, pose, state.lightCoords, 0.0F, 0, 0, 1, state.bobberColorR, state.bobberColorG, state.bobberColorB);
             vertex(buffer, pose, state.lightCoords, 1.0F, 0, 1, 1, state.bobberColorR, state.bobberColorG, state.bobberColorB);

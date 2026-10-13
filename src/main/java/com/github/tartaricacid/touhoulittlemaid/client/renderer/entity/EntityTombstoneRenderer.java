@@ -82,7 +82,7 @@ public class EntityTombstoneRenderer extends EntityRenderer<EntityTombstone, Ent
         if (state.distanceToCameraSq < (NAME_SHOW_DISTANCE * NAME_SHOW_DISTANCE)) {
             poseStack.pushPose();
             poseStack.translate(0.0F, yOffset, 0.0F);
-            poseStack.mulPose(camera.orientation);
+            poseStack.rotate(camera.orientation);
             poseStack.scale(-0.025F, -0.025F, 0.025F);
             Font font = this.getFont();
             float width = (float) (-font.width(component) / 2);

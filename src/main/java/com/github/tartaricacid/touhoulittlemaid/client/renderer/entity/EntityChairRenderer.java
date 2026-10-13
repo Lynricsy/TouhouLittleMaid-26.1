@@ -142,7 +142,7 @@ public class EntityChairRenderer extends LivingEntityRenderer<EntityChair, Entit
 
     @Override
     protected void setupRotations(EntityChairRenderState state, PoseStack poseStack, float bodyRot, float entityScale) {
-        poseStack.mulPose(Axis.YP.rotationDegrees(180 - bodyRot));
+        poseStack.rotate(Axis.YP.rotationDegrees(180 - bodyRot));
     }
 
     @Override

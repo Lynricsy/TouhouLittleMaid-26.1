@@ -54,7 +54,7 @@ public class LayerMaidBanner extends RenderLayer<EntityMaidRenderState, EntityMa
 
             poseStack.translate(0, -0.25, 0.25);
             poseStack.scale(0.5F, 0.5F, 0.5F);
-            poseStack.mulPose(Axis.XN.rotationDegrees(5));
+            poseStack.rotate(Axis.XN.rotationDegrees(5));
 
             // 杆子
             RenderType renderType = RenderTypes.entityCutout(TEXTURE);
@@ -68,7 +68,7 @@ public class LayerMaidBanner extends RenderLayer<EntityMaidRenderState, EntityMa
             SpriteId sprite = Sheets.BANNER_BASE;
 
             // 旗帜图案
-            poseStack.mulPose(Axis.YN.rotationDegrees(90));
+            poseStack.rotate(Axis.YN.rotationDegrees(90));
             poseStack.translate(0.75, 0.2, 0.1);
             submitNode.submitModel(
                     flag, 0f, poseStack, light, NO_OVERLAY, -1,

@@ -7,7 +7,7 @@
 ## Project shape
 
 - This is a single NeoForge ModDev Gradle project for `touhou_little_maid`, not an Architectury/multi-loader repo.
-- Current project coordinates come from `gradle.properties`: Minecraft `26.1.2`, NeoForge `26.1.2.68-beta`, group `com.github.tartaricacid`.
+- Current project coordinates come from `gradle.properties`: Minecraft `26.3`, NeoForge `26.3.0.76`, group `com.github.tartaricacid`.
 - Root mod sources live in `src/main/java/com/github/tartaricacid/touhoulittlemaid`; `modules/maid-manager-codegen` is
   the only included subproject.
 - Main entrypoints are `TouhouLittleMaid.java` (`@Mod`) and `TouhouLittleMaidClient.java`

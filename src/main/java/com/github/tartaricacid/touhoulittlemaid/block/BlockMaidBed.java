@@ -56,6 +56,7 @@ public class BlockMaidBed extends HorizontalDirectionalBlock implements EntityBl
                 .setId(ResourceKey.create(Registries.BLOCK, id))
                 .sound(SoundType.WOOD)
                 .strength(0.2F)
+                .bounceRestitution(0.75F)
                 .noOcclusion());
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(PART, BedPart.FOOT)
@@ -151,19 +152,6 @@ public class BlockMaidBed extends HorizontalDirectionalBlock implements EntityBl
     @Override
     public void fallOn(Level worldIn, BlockState blockState, BlockPos pos, Entity entityIn, double fallDistance) {
         super.fallOn(worldIn, blockState, pos, entityIn, fallDistance * 0.5f);
-    }
-
-    @Override
-    public void updateEntityMovementAfterFallOn(BlockGetter worldIn, Entity entity) {
-        if (entity.isSuppressingBounce()) {
-            super.updateEntityMovementAfterFallOn(worldIn, entity);
-        } else {
-            Vec3 movement = entity.getDeltaMovement();
-            if (movement.y < 0) {
-                double modulus = entity instanceof LivingEntity ? 1.0 : 0.8;
-                entity.setDeltaMovement(movement.x, -movement.y * 0.66 * modulus, movement.z);
-            }
-        }
     }
 
     @Override

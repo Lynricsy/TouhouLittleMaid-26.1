@@ -22,8 +22,8 @@ public class DismountBroomKey {
     public static final KeyMapping DISMOUNT_KEY = new KeyMapping("key.touhou_little_maid.dismount.desc",
             KeyConflictContext.IN_GAME,
             KeyModifier.NONE,
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_C,
+            InputConstants.Type.KEYBOARD,
+            InputConstants.KEY_C,
             MAID_CATEGORY
     );
 
@@ -38,7 +38,7 @@ public class DismountBroomKey {
                 return;
             }
             DISMOUNT_KEY.consumeClick();
-            if (event.getAction() == GLFW.GLFW_RELEASE) {
+            if (event.getAction() == InputConstants.RELEASE) {
                 ClientPacketDistributor.sendToServer(new DismountPackage(DismountPackage.DISMOUNT_BROOM));
             }
         }

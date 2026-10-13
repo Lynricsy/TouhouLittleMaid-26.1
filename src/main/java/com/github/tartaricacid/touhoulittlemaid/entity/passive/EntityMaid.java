@@ -526,7 +526,7 @@ public class EntityMaid extends MaidManagerHost implements CrossbowAttackMob {
     }
 
     @Override
-    public boolean isBaby() {
+    public boolean canBeABaby() {
         // 没有幼年形态的女仆
         return false;
     }
@@ -700,7 +700,7 @@ public class EntityMaid extends MaidManagerHost implements CrossbowAttackMob {
     }
 
     public void setSyncInvulnerable(boolean isInvulnerable) {
-        super.setInvulnerable(isInvulnerable);
+        super.setPermanentlyInvulnerable(isInvulnerable);
         this.entityData.set(DATA_SYNC_INVULNERABLE, isInvulnerable);
     }
 

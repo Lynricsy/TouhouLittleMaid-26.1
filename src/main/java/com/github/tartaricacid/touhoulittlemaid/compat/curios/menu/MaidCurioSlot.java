@@ -5,7 +5,7 @@ import com.github.tartaricacid.touhoulittlemaid.util.migrate.I18nUtil;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
@@ -13,7 +13,7 @@ import top.theillusivec4.curios.mixin.core.AccessorEntity;
 
 import javax.annotation.Nonnull;
 
-public class MaidCurioSlot extends SlotItemHandler {
+public class MaidCurioSlot extends ResourceHandlerSlot {
     private final String identifier;
     private final EntityMaid maid;
     private final SlotContext slotContext;

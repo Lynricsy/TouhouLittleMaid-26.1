@@ -35,8 +35,8 @@ public class STTChatKey {
     public static final KeyMapping STT_CHAT_KEY = new KeyMapping("key.touhou_little_maid.stt_chat.desc",
             KeyConflictContext.IN_GAME,
             KeyModifier.NONE,
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_X,
+            InputConstants.Type.KEYBOARD,
+            InputConstants.KEY_X,
             MAID_CATEGORY
     );
 
@@ -57,12 +57,12 @@ public class STTChatKey {
                 return;
             }
             STT_CHAT_KEY.consumeClick();
-            if (event.getAction() == GLFW.GLFW_PRESS) {
+            if (event.getAction() == InputConstants.PRESS) {
                 Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(InitSounds.RECORDING_START.get(), 1f));
                 getNearestMaid(player, STTChatKey::sttStart, true);
                 return;
             }
-            if (event.getAction() == GLFW.GLFW_RELEASE) {
+            if (event.getAction() == InputConstants.RELEASE) {
                 Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(InitSounds.RECORDING_END.get(), 1f));
                 getNearestMaid(player, STTChatKey::sttStop, false);
             }

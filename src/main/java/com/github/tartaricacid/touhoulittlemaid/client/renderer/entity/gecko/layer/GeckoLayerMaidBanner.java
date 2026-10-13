@@ -48,8 +48,8 @@ public class GeckoLayerMaidBanner implements GeoLayerRenderer<EntityMaidRenderSt
             data.modelState.visitLocatorGroup(GeoLocatorType.BACKPACK, poseStack, locator -> {
                 locator.translate(0, 0.75, 0.3);
                 locator.scale(0.65F, -0.65F, -0.65F);
-                locator.mulPose(Axis.YN.rotationDegrees(180));
-                locator.mulPose(Axis.XN.rotationDegrees(5));
+                locator.rotate(Axis.YN.rotationDegrees(180));
+                locator.rotate(Axis.XN.rotationDegrees(5));
 
                 // 杆子
                 int light = state.lightCoords;
@@ -64,7 +64,7 @@ public class GeckoLayerMaidBanner implements GeoLayerRenderer<EntityMaidRenderSt
                 SpriteId sprite = Sheets.BANNER_BASE;
 
                 // 旗帜图案
-                poseStack.mulPose(Axis.YN.rotationDegrees(90));
+                poseStack.rotate(Axis.YN.rotationDegrees(90));
                 poseStack.translate(0.75, 0.2, 0.1);
                 submitNode.submitModel(
                         flag, 0f, poseStack, light, NO_OVERLAY, -1,

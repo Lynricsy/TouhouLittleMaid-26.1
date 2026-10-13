@@ -161,7 +161,7 @@ public class AttackTaskConfigGui extends MaidTaskConfigGui<TaskConfigContainer> 
 
     @Override
     public boolean keyPressed(KeyEvent event) {
-        if (event.key() == GLFW.GLFW_KEY_ESCAPE && this.getMinecraft().player != null) {
+        if (event.key() == InputConstants.KEY_ESCAPE && this.getMinecraft().player != null) {
             this.getMinecraft().player.closeContainer();
         }
         return this.inputField.keyPressed(event) || this.inputField.canConsumeInput() || super.keyPressed(event);

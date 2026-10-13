@@ -88,7 +88,7 @@ public class MaidFishingHookRenderer<T extends MaidFishingHook, S extends MaidFi
                                 SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
         poseStack.pushPose();
         poseStack.scale(0.5F, 0.5F, 0.5F);
-        poseStack.mulPose(camera.orientation);
+        poseStack.rotate(camera.orientation);
         submitNodeCollector.submitCustomGeometry(poseStack, RENDER_TYPE, (pose, buffer) -> {
             vertex(buffer, pose, state.lightCoords, 0.0F, 0, 0, 1);
             vertex(buffer, pose, state.lightCoords, 1.0F, 0, 1, 1);
@@ -107,7 +107,7 @@ public class MaidFishingHookRenderer<T extends MaidFishingHook, S extends MaidFi
         float ya = (float) state.lineOriginOffset.y;
         float za = (float) state.lineOriginOffset.z;
         float[] colors = new float[]{state.lineColorR, state.lineColorG, state.lineColorB};
-        float width = Minecraft.getInstance().gameRenderer.getGameRenderState().windowRenderState.appropriateLineWidth;
+        float width = Minecraft.getInstance().gameRenderer.gameRenderState().windowRenderState.appropriateLineWidth;
 
         submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.lines(), (pose, buffer) -> {
             for (int i = 0; i <= 16; ++i) {
