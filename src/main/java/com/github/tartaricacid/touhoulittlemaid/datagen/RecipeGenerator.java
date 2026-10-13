@@ -63,11 +63,23 @@ public class RecipeGenerator extends RecipeProvider {
                 .requires(Tags.Items.GEMS_DIAMOND)
                 .save(recipeOutput);
 
+        AltarRecipeBuilder.shapeless(items, InitItems.CRAFTING_TABLE_BACKPACK)
+                .power(0.2F)
+                .requires(InitItems.MAID_BACKPACK_MIDDLE)
+                .requires(Tags.Items.PLAYER_WORKSTATIONS_CRAFTING_TABLES)
+                .save(recipeOutput);
+
         AltarRecipeBuilder.shapeless(items, InitItems.DROWN_PROTECT_BAUBLE)
                 .power(0.2F)
                 .requires(Tags.Items.CROPS_NETHER_WART)
                 .requires(Tags.Items.DYES_LIME)
                 .requires(4, ItemTags.FISHES)
+                .save(recipeOutput);
+
+        AltarRecipeBuilder.shapeless(items, InitItems.ENDER_CHEST_BACKPACK)
+                .power(0.2F)
+                .requires(InitItems.MAID_BACKPACK_MIDDLE)
+                .requires(Items.ENDER_CHEST)
                 .save(recipeOutput);
 
         AltarRecipeBuilder.shapeless(items, InitItems.EXPLOSION_PROTECT_BAUBLE)
@@ -96,6 +108,12 @@ public class RecipeGenerator extends RecipeProvider {
                 .requires(Tags.Items.CROPS_NETHER_WART)
                 .requires(Tags.Items.DYES_RED)
                 .requires(4, Items.BLAZE_POWDER)
+                .save(recipeOutput);
+
+        AltarRecipeBuilder.shapeless(items, InitItems.FURNACE_BACKPACK)
+                .power(0.2F)
+                .requires(InitItems.MAID_BACKPACK_MIDDLE)
+                .requires(Tags.Items.PLAYER_WORKSTATIONS_FURNACES)
                 .save(recipeOutput);
 
         AltarRecipeBuilder.shapeless(items, InitItems.GOMOKU)
@@ -272,6 +290,12 @@ public class RecipeGenerator extends RecipeProvider {
                 .requires(2, Items.HAY_BLOCK)
                 .requires(2, Items.GRANITE)
                 .requires(2, Tags.Items.DUSTS_REDSTONE)
+                .save(recipeOutput);
+
+        AltarRecipeBuilder.shapeless(items, InitItems.TANK_BACKPACK)
+                .power(0.2F)
+                .requires(InitItems.MAID_BACKPACK_MIDDLE)
+                .requires(Items.BUCKET)
                 .save(recipeOutput);
 
         AltarRecipeBuilder.shapeless(items, InitItems.TRUMPET)

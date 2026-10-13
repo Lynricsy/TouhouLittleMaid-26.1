@@ -28,6 +28,10 @@ public interface InitItems {
     DeferredItem<Item> MAID_BACKPACK_SMALL = ITEMS.register("maid_backpack_small", ItemMaidBackpack::new);
     DeferredItem<Item> MAID_BACKPACK_MIDDLE = ITEMS.register("maid_backpack_middle", ItemMaidBackpack::new);
     DeferredItem<Item> MAID_BACKPACK_BIG = ITEMS.register("maid_backpack_big", ItemMaidBackpack::new);
+    DeferredItem<Item> CRAFTING_TABLE_BACKPACK = ITEMS.register("crafting_table_backpack", ItemMaidBackpack::new);
+    DeferredItem<Item> ENDER_CHEST_BACKPACK = ITEMS.register("ender_chest_backpack", ItemMaidBackpack::new);
+    DeferredItem<Item> FURNACE_BACKPACK = ITEMS.register("furnace_backpack", ItemMaidBackpack::new);
+    DeferredItem<Item> TANK_BACKPACK = ITEMS.register("tank_backpack", ItemTankBackpack::new);
 
     // 御币
     DeferredItem<Item> HAKUREI_GOHEI = ITEMS.register("hakurei_gohei", ItemGohei::new);
