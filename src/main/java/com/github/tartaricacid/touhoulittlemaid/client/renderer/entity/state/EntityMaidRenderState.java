@@ -196,6 +196,10 @@ public class EntityMaidRenderState extends HumanoidRenderState {
      * 当前所处环境是否处于雷暴天气，用于一些根据天气变化的动画或渲染效果
      */
     public boolean thundering;
+    /**
+     * 女仆实体 ID，供需要实体本身的第三方渲染联动（如 PatPat 拍头缩放）在提交阶段取回实体
+     */
+    public int entityId = -1;
 
     public void clear() {
         modelType = ModelType.NONE;
@@ -240,6 +244,7 @@ public class EntityMaidRenderState extends HumanoidRenderState {
         dimension = null;
         raining = false;
         thundering = false;
+        entityId = -1;
     }
 
     public static void extractRenderState(
@@ -271,6 +276,7 @@ public class EntityMaidRenderState extends HumanoidRenderState {
     }
 
     private static void extractAttributeState(EntityMaid maid, EntityMaidRenderState state) {
+        state.entityId = maid.getId();
         state.customName = maid.getCustomName();
         state.armorValue = maid.getArmorValue();
         state.health = maid.getHealth();
