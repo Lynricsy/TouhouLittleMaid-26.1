@@ -18,6 +18,11 @@ public class MaidTrackEvent {
         Entity target = event.getTarget();
         Player player = event.getEntity();
         if (target instanceof EntityMaid maid && player instanceof ServerPlayer serverPlayer) {
+            // 如果是 ysm 模型，那么同步 ysm 模型信息
+            if (maid.isYsmModel()) {
+                PacketDistributor.sendToPlayer(serverPlayer, maid.getYsmManager().createSyncPackage());
+            }
+
             // 如果包含需要同步到客户端的饰品信息，那么同步
             var syncClientBauble = maid.getMaidBauble().getSyncClientBauble(maid);
             if (!syncClientBauble.isEmpty()) {

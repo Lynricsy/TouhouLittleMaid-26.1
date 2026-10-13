@@ -16,6 +16,7 @@ public class RenderConfig {
     public static ModConfigSpec.BooleanValue ENABLE_LEAD_TIP;
     public static ModConfigSpec.BooleanValue ENABLE_SADDLE_TIP;
     public static ModConfigSpec.BooleanValue ENABLE_SHEARS_TIP;
+    public static ModConfigSpec.BooleanValue ENABLE_YSM_ROULETTE_TIP;
 
     public static void init(ModConfigSpec.Builder builder) {
         builder.translation(TRANSLATE_KEY).push("render");
@@ -30,6 +31,7 @@ public class RenderConfig {
         ENABLE_LEAD_TIP = builder.translation(translateKey("enable_lead_tip")).define("EnableLeadTip", true);
         ENABLE_SADDLE_TIP = builder.translation(translateKey("enable_saddle_tip")).define("EnableSaddleTip", true);
         ENABLE_SHEARS_TIP = builder.translation(translateKey("enable_shears_tip")).define("EnableShearsTip", true);
+        ENABLE_YSM_ROULETTE_TIP = builder.translation(translateKey("enable_ysm_roulette_tip")).define("EnableYsmRouletteTip", true);
 
         builder.pop();
     }

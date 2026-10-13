@@ -4,4 +4,5 @@ public enum ModelType {
     NONE,
     SIMPLE_BEDROCK,
     GECKO,
+    YSM,
 }

@@ -3,6 +3,7 @@ package com.github.tartaricacid.touhoulittlemaid.block;
 import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityGarageKit;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.loader.CustomPackLoader;
 import com.github.tartaricacid.touhoulittlemaid.entity.data.ProfileData;
+import com.github.tartaricacid.touhoulittlemaid.entity.data.YsmData;
 import com.github.tartaricacid.touhoulittlemaid.init.InitBlocks;
 import com.github.tartaricacid.touhoulittlemaid.init.InitDataComponent;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
@@ -93,6 +94,8 @@ public class BlockGarageKit extends HorizontalDirectionalBlock implements Entity
             Identifier key = BuiltInRegistries.ENTITY_TYPE.getKey(InitEntities.MAID.get());
             data.putString(InitDataComponent.ENTITY_ID_TAG_NAME, key.toString());
             ProfileData.directSetModelId(data, modelId);
+            // 创造模式物品栏数据需要强制指定 YSM 渲染为空
+            YsmData.directRemove(data);
             stack.set(InitDataComponent.MAID_INFO, CustomData.of(data));
 
             items.accept(stack);

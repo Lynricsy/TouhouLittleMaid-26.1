@@ -6,6 +6,7 @@ import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityStatue;
 import com.github.tartaricacid.touhoulittlemaid.client.model.bedrock.SimpleBedrockModel;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.blockentity.state.StatueRenderState;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.bedrock.InternalBedrockModelRegistry;
+import com.github.tartaricacid.touhoulittlemaid.compat.ysm.YsmCompat;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.github.tartaricacid.touhoulittlemaid.util.EntityCacheUtil;
@@ -112,7 +113,11 @@ public class StatueRenderer implements BlockEntityRenderer<BlockEntityStatue, St
         if (entity instanceof EntityMaid maid) {
             clearMaidDataResidue(maid, true);
             maid.renderState = MaidRenderState.STATUE;
-            maid.tickCount = 0;
+            if (YsmCompat.isInstalled() && maid.isYsmModel()) {
+                maid.tickCount = (int) level.getGameTime();
+            } else {
+                maid.tickCount = 0;
+            }
         }
 
         state.entityRenderState = this.dispatcher.extractEntity(entity, partialTick);

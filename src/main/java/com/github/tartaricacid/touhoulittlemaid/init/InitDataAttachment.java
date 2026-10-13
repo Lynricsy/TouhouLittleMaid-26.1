@@ -37,4 +37,6 @@ public interface InitDataAttachment {
     Supplier<AttachmentType<BackpackData>> BACKPACK = ATTACHMENT_TYPES.register("backpack", () -> BackpackData.TYPE);
     // 对弈记录和当前对弈状态
     Supplier<AttachmentType<GameData>> GAME = ATTACHMENT_TYPES.register("game", () -> GameData.TYPE);
+    // YSM 模型数据（由 YSM 模组写入）
+    Supplier<AttachmentType<YsmData>> YSM = ATTACHMENT_TYPES.register("ysm", () -> YsmData.TYPE);
 }

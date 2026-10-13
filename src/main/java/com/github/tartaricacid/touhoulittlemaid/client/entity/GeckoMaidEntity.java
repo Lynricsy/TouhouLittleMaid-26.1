@@ -11,14 +11,17 @@ import com.github.tartaricacid.touhoulittlemaid.event.ClientTickEvent;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.AnimatableEntity;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.event.AnimationEvent;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.molang.value.IValue;
+import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.molang.util.StringPool;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.GeckoRenderData;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.RenderContext;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.animated.AnimatedGeoModel;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.render.built.GeoLocatorType;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.resource.GeckoContainer;
+import com.github.tartaricacid.touhoulittlemaid.molang.runtime.HashMapStruct;
 import it.unimi.dsi.fastutil.booleans.BooleanArrayList;
 import it.unimi.dsi.fastutil.booleans.BooleanList;
 import it.unimi.dsi.fastutil.floats.FloatArrayList;
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
@@ -243,5 +246,15 @@ public class GeckoMaidEntity<T extends EntityMaid> extends AnimatableEntity<T> {
         waitForAsyncUpdate();
         super.reset();
         this.maidInfo = null;
+    }
+
+    /**
+     * 将 YSM 同步过来的漫游变量写入动画处理器的 roaming 结构体，供 molang 读取
+     */
+    public void updateRoamingVars(Object2FloatOpenHashMap<String> roamingVars) {
+        HashMapStruct struct = new HashMapStruct();
+        roamingVars.object2FloatEntrySet().fastForEach(entry ->
+                struct.putProperty(StringPool.computeIfAbsent(entry.getKey()), entry.getFloatValue()));
+        this.getAnimationProcessor().putRemoteStruct(struct);
     }
 }

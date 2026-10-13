@@ -279,6 +279,7 @@
   "gui.touhou_little_maid.activity.work": "Lavoro",
   "gui.touhou_little_maid.activity.idle": "Inattiva",
   "gui.touhou_little_maid.button.skin": "Cambia Skin",
+  "gui.touhou_little_maid.button.ysm_skin": "Usa skin YSM",
   "gui.touhou_little_maid.button.sound": "Imposta Pacchetto Suoni",
   "gui.touhou_little_maid.task.close": "Chiudi",
   "gui.touhou_little_maid.skin.text.version": "Versione: %s",
@@ -315,5 +316,7 @@
   "patchouli.touhou_little_maid.book.entries.maid.mute_bauble.pages.0.text": "Dopo aver equipaggiato questo accessorio, la maid diventerà molto sileziosa.",
   "patchouli.touhou_little_maid.book.entries.maid.substitute_jizo.name": "Jizo Della Sostituzione",
   "patchouli.touhou_little_maid.book.entries.other.extinguisher.name": "Estintore",
-  "patchouli.touhou_little_maid.book.entries.other.maid_bed.name": "Letto da Maid"
+  "patchouli.touhou_little_maid.book.entries.other.maid_bed.name": "Letto da Maid",
+  "overlay.touhou_little_maid.ysm_roulette_anim.tips": "Premi il tasto delle animazioni a ruota (predefinito Z) per aprire la schermata delle animazioni a ruota",
+  "config.touhou_little_maid.render.enable_ysm_roulette_tip": "Abilita suggerimento ruota YSM"
 }

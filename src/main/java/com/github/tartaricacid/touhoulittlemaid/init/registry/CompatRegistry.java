@@ -5,6 +5,7 @@ import com.github.tartaricacid.touhoulittlemaid.compat.immersivemelodies.server.
 import com.github.tartaricacid.touhoulittlemaid.compat.patchouli.PatchouliCompat;
 import com.github.tartaricacid.touhoulittlemaid.compat.sbackpack.SBackpackCompat;
 import com.github.tartaricacid.touhoulittlemaid.compat.tbackpack.TBackpackCompat;
+import com.github.tartaricacid.touhoulittlemaid.compat.ysm.YsmCompat;
 
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.InterModComms;
@@ -21,6 +22,7 @@ public final class CompatRegistry {
     public static final String TBACKPACK = "travelersbackpack";
     public static final String CURIOS = "curios";
     public static final String IMMERSIVE_MELODIES = "immersive_melodies";
+    public static final String YSM = "yes_steve_model";
 
     @SubscribeEvent
     public static void onEnqueue(final InterModEnqueueEvent event) {
@@ -30,6 +32,7 @@ public final class CompatRegistry {
         event.enqueueWork(() -> checkModLoad(SBACKPACK, SBackpackCompat::init));
         event.enqueueWork(() -> checkModLoad(TBACKPACK, TBackpackCompat::init));
         event.enqueueWork(() -> checkModLoad(IMMERSIVE_MELODIES, ImmersiveMelodiesServerCompat::init));
+        event.enqueueWork(() -> checkModLoad(YSM, YsmCompat::init));
     }
 
     private static void checkModLoad(String modId, Runnable runnable) {

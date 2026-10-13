@@ -318,6 +318,7 @@
   "overlay.touhou_little_maid.lead.tips": "Clic droit pour tenir la Maid en laisse",
   "overlay.touhou_little_maid.ntr_item.tips": "Vous permet de devenir le Maitre de la Maid de quelqu'un d'autre",
   "overlay.touhou_little_maid.remove_backpack.tips": "Retirer le sac à dos de la Maid",
+  "overlay.touhou_little_maid.ysm_roulette_anim.tips": "Appuyez sur la touche d'animation en roulette (Z par défaut) pour ouvrir l'écran des animations en roulette",
   "overlay.touhou_little_maid.saddle.tips": "Faites un clic droit avec une Selle en main pour porter votre Maid dans vos bras",
   "gui.touhou_little_maid.schedule.day": "Travail de jour",
   "gui.touhou_little_maid.schedule.night": "Travail de nuit",
@@ -326,6 +327,7 @@
   "gui.touhou_little_maid.activity.idle": "Inactif",
   "gui.touhou_little_maid.activity.rest": "Repos",
   "gui.touhou_little_maid.button.skin": "Changer de Skin",
+  "gui.touhou_little_maid.button.ysm_skin": "Utiliser le skin YSM",
   "gui.touhou_little_maid.button.sound": "Définir un Pack de Sons",
   "gui.touhou_little_maid.task.next_page": "Page suivante",
   "gui.touhou_little_maid.task.previous_page": "Page précédente",
@@ -904,5 +906,6 @@
   "patchouli.touhou_little_maid.book.entries.overview.vanilla_change.pages.0.text": "Nous avons modifié l'apparence des slimes par des Yukkuri.",
   "patchouli.touhou_little_maid.book.entries.overview.vanilla_change.pages.1.text": "Nous avons également modifié l'apparence des Orbes d'expérience, des Fioles d'expérience et du Totem d'Immortalité.$(br2)Tous ces changements peuvent être désactivés depuis les options du mods.",
   "patchouli.touhou_little_maid.book.entries.overview.favorability.name": "Affinité",
-  "patchouli.touhou_little_maid.book.entries.overview.favorability.pages.0.text": "L'Affinité peu augmenter la santé et la puissance de la Maid.$(br2)Augmente l'affinité :$(li)Pendant ses heures de pause, la Maid peut jouer avec le Piano, l'Ordinateur, la Bibliothèque et au Gomoku.$(li)Quand la Maid dort.$(br2)Réduit l'affinité :$(li)Quand la Maid est tué."
+  "patchouli.touhou_little_maid.book.entries.overview.favorability.pages.0.text": "L'Affinité peu augmenter la santé et la puissance de la Maid.$(br2)Augmente l'affinité :$(li)Pendant ses heures de pause, la Maid peut jouer avec le Piano, l'Ordinateur, la Bibliothèque et au Gomoku.$(li)Quand la Maid dort.$(br2)Réduit l'affinité :$(li)Quand la Maid est tué.",
+  "config.touhou_little_maid.render.enable_ysm_roulette_tip": "Activer l'astuce de roulette YSM"
 }
