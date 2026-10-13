@@ -1,5 +1,13 @@
 package com.github.tartaricacid.touhoulittlemaid.gametest;
 
+import net.neoforged.neoforge.transfer.item.ItemUtil;
+import net.minecraft.world.level.material.Fluids;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.FluidStack;
+import com.github.tartaricacid.touhoulittlemaid.item.ItemBoardState;
+import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityGomoku;
+import com.github.tartaricacid.touhoulittlemaid.entity.backpack.data.TankBackpackData;
+import com.github.tartaricacid.touhoulittlemaid.entity.backpack.TankBackpack;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.MaidSchedule;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.backpack.IBackpackData;
@@ -66,6 +74,8 @@ public final class TLMGameTests {
         TESTS.register("furnace_backpack_smelt", () -> TLMGameTests::furnaceBackpackSmelt);
         TESTS.register("altar_craft", () -> TLMGameTests::altarCraft);
         TESTS.register("maid_store_restore", () -> TLMGameTests::maidStoreRestore);
+        TESTS.register("tank_backpack_fill", () -> TLMGameTests::tankBackpackFill);
+        TESTS.register("gomoku_board_state_load", () -> TLMGameTests::gomokuBoardStateLoad);
     }
 
     private TLMGameTests() {
@@ -221,6 +231,62 @@ public final class TLMGameTests {
         helper.assertTrue(restoredInput.is(Items.RAW_GOLD) && restoredInput.getCount() == 3,
                 Component.literal("Furnace backpack data lost after restore: " + restoredInput));
         helper.succeed();
+    }
+
+    /**
+     * 储罐背包输入槽放入水桶后，水倒入储罐，空桶进入女仆背包
+     */
+    private static void tankBackpackFill(GameTestHelper helper) {
+        EntityMaid maid = helper.spawn(InitEntities.MAID.get(), new BlockPos(4, 1, 4));
+        maid.setMaidBackpackType(BackpackManager.findBackpack(TankBackpack.ID).orElseThrow());
+        IBackpackData data = maid.getBackpackData();
+        helper.assertTrue(data instanceof TankBackpackData, Component.literal("Tank backpack data missing: " + data));
+        TankBackpackData tank = (TankBackpackData) data;
+        ItemsUtil.setStackInSlot(tank.getItems(), TankBackpackData.INPUT_INDEX, new ItemStack(Items.WATER_BUCKET));
+
+        helper.succeedWhen(() -> {
+            FluidStack fluid = tank.getFluid();
+            helper.assertTrue(fluid.is(Fluids.WATER) && fluid.getAmount() == FluidType.BUCKET_VOLUME,
+                    Component.literal("Tank should hold one bucket of water, got " + fluid.getAmount()));
+            boolean hasBucket = false;
+            var inv = maid.getAvailableInv(false);
+            for (int i = 0; i < inv.size(); i++) {
+                hasBucket |= ItemUtil.getStack(inv, i).is(Items.BUCKET);
+            }
+            helper.assertTrue(hasBucket, Component.literal("Empty bucket was not moved into the maid inventory"));
+        });
+    }
+
+    /**
+     * 手持五子棋残局道具右键棋盘，棋盘载入残局棋子
+     */
+    private static void gomokuBoardStateLoad(GameTestHelper helper) {
+        BlockPos centerRel = new BlockPos(7, 1, 7);
+        helper.setBlock(centerRel, InitBlocks.GOMOKU.get().defaultBlockState());
+        BlockEntityGomoku gomoku = helper.getBlockEntity(centerRel, BlockEntityGomoku.class);
+        helper.assertTrue(countStones(gomoku) == 0, Component.literal("New gomoku board should be empty"));
+
+        ItemStack boardState = InitItems.GOMOKU_BOARD_STATE.get().getDefaultInstance();
+        // 数据取自 data/touhou_little_maid/board_states/gomoku.json 的“月亮阵”
+        ItemBoardState.setState(boardState, "eNpjYKAvYMTPZ8SreAgAdP8w0twTAAhFAAk, 8, 8_9", "moon", "test");
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        player.setItemInHand(InteractionHand.MAIN_HAND, boardState);
+        helper.useBlock(centerRel, player);
+
+        helper.assertTrue(countStones(gomoku) > 0, Component.literal("Board state was not loaded into the gomoku board"));
+        helper.succeed();
+    }
+
+    private static int countStones(BlockEntityGomoku gomoku) {
+        int count = 0;
+        for (byte[] row : gomoku.getChessData()) {
+            for (byte b : row) {
+                if (b != 0) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     private static FurnaceBackpackData getFurnaceData(GameTestHelper helper, EntityMaid maid) {
