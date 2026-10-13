@@ -2,13 +2,13 @@
   "criteria": {
     "craft_hakurei_gohei": {
       "conditions": {
-        "recipe_id": "touhou_little_maid:hakurei_gohei"
+        "recipes": "touhou_little_maid:hakurei_gohei"
       },
       "trigger": "minecraft:recipe_crafted"
     },
     "craft_sanae_gohei": {
       "conditions": {
-        "recipe_id": "touhou_little_maid:sanae_gohei"
+        "recipes": "touhou_little_maid:sanae_gohei"
       },
       "trigger": "minecraft:recipe_crafted"
     }

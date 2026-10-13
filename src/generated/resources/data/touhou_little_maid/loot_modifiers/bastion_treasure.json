@@ -1,13 +1,11 @@
 {
   "type": "neoforge:add_table",
-  "conditions": [
-    {
-      "condition": "touhou_little_maid:loot_table_type",
-      "loot_table_add": "touhou_little_maid:chest/shrine_less",
-      "loot_table_id": "minecraft:chests/bastion_treasure",
-      "loot_table_type": "minecraft:chest"
-    }
-  ],
+  "condition": {
+    "type": "touhou_little_maid:loot_table_type",
+    "loot_table_add": "touhou_little_maid:chest/shrine_less",
+    "loot_table_id": "minecraft:chests/bastion_treasure",
+    "loot_table_type": "minecraft:chest"
+  },
   "priority": 1,
   "table": "touhou_little_maid:chest/shrine_less"
 }

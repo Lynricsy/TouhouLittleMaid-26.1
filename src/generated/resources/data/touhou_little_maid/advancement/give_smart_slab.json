@@ -10,9 +10,7 @@
     ]
   ],
   "rewards": {
-    "loot": [
-      "touhou_little_maid:give_smart_slab"
-    ]
+    "loot": "touhou_little_maid:give_smart_slab"
   },
   "sends_telemetry_event": true
 }

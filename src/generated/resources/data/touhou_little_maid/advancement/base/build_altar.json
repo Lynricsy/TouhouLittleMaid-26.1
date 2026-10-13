@@ -9,7 +9,6 @@
     }
   },
   "display": {
-    "background": "touhou_little_maid:advancements/backgrounds/stone",
     "description": {
       "translate": "advancements.touhou_little_maid.base.build_altar.description"
     },
@@ -26,9 +25,7 @@
     ]
   ],
   "rewards": {
-    "loot": [
-      "touhou_little_maid:advancement/power_point"
-    ]
+    "loot": "touhou_little_maid:advancement/power_point"
   },
   "sends_telemetry_event": true
 }
