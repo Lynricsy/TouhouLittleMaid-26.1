@@ -27,14 +27,16 @@ public class MaidInventoryRef implements ContainerRef {
 
     @Override
     public ItemStack insert(EntityMaid maid, ItemStack itemstack, boolean simulate) {
+        int count = itemstack.getCount();
         try (Transaction tx = Transaction.openRoot()) {
             ItemResource resource = ItemResource.of(itemstack);
             var inv = maid.getAvailableInv(false);
-            int count = inv.insert(resource, itemstack.count(), tx);
+            int inserted = inv.insert(resource, count, tx);
             if (!simulate) {
                 tx.commit();
             }
-            return resource.toStack(count);
+            // 调用方按“剩余物品”处理返回值
+            return inserted >= count ? ItemStack.EMPTY : itemstack.copyWithCount(count - inserted);
         }
     }
 

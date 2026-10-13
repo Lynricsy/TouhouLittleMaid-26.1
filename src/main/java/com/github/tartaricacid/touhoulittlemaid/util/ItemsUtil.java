@@ -311,7 +311,7 @@ public final class ItemsUtil {
     }
 
     public static void loadContainer(Container container, String key, ValueInput valueInput) {
-        valueInput.read("container", ItemStack.OPTIONAL_CODEC.listOf()).ifPresent(l -> fillContainerByItemList(container, l));
+        valueInput.read(key, ItemStack.OPTIONAL_CODEC.listOf()).ifPresent(l -> fillContainerByItemList(container, l));
     }
 
     public static ItemStacksResourceHandler createDummyHandler(List<ItemStack> stack) {
