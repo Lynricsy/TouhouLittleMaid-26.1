@@ -17,6 +17,8 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -224,13 +226,21 @@ public class FurnaceBackpackData extends ItemStacksResourceHandler implements IB
     }
 
     /**
-     * 燃料燃烧时长由 {@link DataComponents#COOKING_FUEL} 数据组件给出，需要构建熔炉同款战利品上下文求值
+     * 燃料燃烧时长由 {@link DataComponents#COOKING_FUEL} 数据组件给出，需要构建熔炉同款战利品上下文求值。
+     * <p>
+     * CONTAINER_PROCESS 参数集强制要求方块状态与方块实体，女仆背包没有真实方块，
+     * 因此以位于女仆位置、未放置到世界中的原版熔炉方块实体作为替身
      */
     private int getBurnDuration(ServerLevel level, ItemStack fuel) {
         if (fuel.isEmpty()) {
             return 0;
         }
+        BlockState furnaceState = Blocks.FURNACE.defaultBlockState();
+        FurnaceBlockEntity furnace = new FurnaceBlockEntity(this.maid.blockPosition(), furnaceState);
+        furnace.setLevel(level);
         LootContext context = new LootContext.Builder(new LootParams.Builder(level)
+                .withParameter(LootContextParams.BLOCK_STATE, furnaceState)
+                .withParameter(LootContextParams.BLOCK_ENTITY, furnace)
                 .withParameter(LootContextParams.ORIGIN, this.maid.position())
                 .withParameter(LootContextParams.CONTAINER, this.maid)
                 .withOptionalParameter(NeoForgeLootContextParams.QUERIED_STACK, fuel)
