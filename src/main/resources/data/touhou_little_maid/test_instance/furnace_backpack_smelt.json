@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "function": "touhou_little_maid:furnace_backpack_smelt",
+  "environment": "minecraft:default",
+  "structure": "touhou_little_maid:game_test",
+  "max_ticks": 400,
+  "setup_ticks": 0,
+  "required": true
+}

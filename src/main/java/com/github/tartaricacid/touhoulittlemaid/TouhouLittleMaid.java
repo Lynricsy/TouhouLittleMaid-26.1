@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid;
 
+import com.github.tartaricacid.touhoulittlemaid.gametest.TLMGameTests;
 import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.compat.aquaculture.AquacultureCompat;
 import com.github.tartaricacid.touhoulittlemaid.config.CommonConfig;
@@ -29,6 +30,10 @@ public final class TouhouLittleMaid {
         registerConfiguration(modContainer);
         CommonDefaultPack.initCommonDefaultPack();
         AquacultureCompat.init(modEventBus);
+        // GameTest 函数只在开发环境注册，正式包不携带测试逻辑
+        if (!FMLEnvironment.isProduction()) {
+            TLMGameTests.register(modEventBus);
+        }
     }
 
     private static void initRegister(IEventBus eventBus) {

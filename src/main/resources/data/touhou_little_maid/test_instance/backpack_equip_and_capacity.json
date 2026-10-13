@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "function": "touhou_little_maid:backpack_equip_and_capacity",
+  "environment": "minecraft:default",
+  "structure": "touhou_little_maid:game_test",
+  "max_ticks": 20,
+  "setup_ticks": 0,
+  "required": true
+}
