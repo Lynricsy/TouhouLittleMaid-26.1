@@ -84,6 +84,26 @@ public abstract class IMaidBackpack {
     public abstract MenuProvider getGuiProvider(int entityId);
 
     /**
+     * 该背包是否带有需要持久化的附加数据（如熔炉进度、储罐流体）。
+     *
+     * @return 有附加数据时返回 true
+     */
+    public boolean hasBackpackData() {
+        return false;
+    }
+
+    /**
+     * 为指定女仆创建该背包的附加数据实例。
+     *
+     * @param maid 穿戴该背包的女仆
+     * @return 附加数据；{@link #hasBackpackData()} 为 false 时返回 null
+     */
+    @Nullable
+    public IBackpackData getBackpackData(EntityMaid maid) {
+        return null;
+    }
+
+    /**
      * 获取该背包允许女仆物品栏使用的最大容器索引。
      * <p>
      * 该值用于限制女仆可用容量，也用于卸下背包时丢出超出当前容量的物品。

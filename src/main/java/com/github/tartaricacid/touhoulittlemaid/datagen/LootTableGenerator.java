@@ -6,6 +6,7 @@ import com.github.tartaricacid.touhoulittlemaid.init.InitBlocks;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.loot.SetInitMaidOwnerFunction;
+import com.github.tartaricacid.touhoulittlemaid.loot.SetTankCountFunction;
 import com.github.tartaricacid.touhoulittlemaid.util.IdentifierUtil;
 import com.google.common.collect.Sets;
 import net.minecraft.core.registries.Registries;
@@ -19,6 +20,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BedPart;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
@@ -47,6 +49,9 @@ public class LootTableGenerator {
 
     public static final ResourceKey<LootTable> SPAWN_BONUS = getLootTableKey("chest/spawn_bonus");
     public static final ResourceKey<LootTable> NORMAL_BACKPACK = getLootTableKey("chest/normal_backpack");
+    public static final ResourceKey<LootTable> FURNACE_OR_CRAFTING_TABLE_BACKPACK = getLootTableKey("chest/furnace_or_crafting_table_backpack");
+    public static final ResourceKey<LootTable> TANK_BACKPACK = getLootTableKey("chest/tank_backpack");
+    public static final ResourceKey<LootTable> ENDER_CHEST_BACKPACK = getLootTableKey("chest/ender_chest_backpack");
 
     public static final ResourceKey<LootTable> NORMAL_BAUBLE = getLootTableKey("chest/normal_bauble");
     public static final ResourceKey<LootTable> RARE_BAUBLE = getLootTableKey("chest/rare_bauble");
@@ -122,6 +127,26 @@ public class LootTableGenerator {
                     .add(LootItem.lootTableItem(InitItems.MAID_BACKPACK_MIDDLE.get()).setWeight(9))
                     .add(LootItem.lootTableItem(InitItems.MAID_BACKPACK_BIG.get()).setWeight(4))
                     .add(EmptyLootItem.emptyItem().setWeight(50))));
+
+            this.output.accept(FURNACE_OR_CRAFTING_TABLE_BACKPACK, LootTable.lootTable().withPool(LootPool.lootPool()
+                    .setRolls(ContextIntProviders.exactly(1))
+                    .add(LootItem.lootTableItem(InitItems.FURNACE_BACKPACK.get()))
+                    .add(LootItem.lootTableItem(InitItems.CRAFTING_TABLE_BACKPACK.get()))
+                    .add(EmptyLootItem.emptyItem().setWeight(8))));
+
+            var tank1 = LootItem.lootTableItem(InitItems.TANK_BACKPACK.get()).apply(new SetTankCountFunction.Builder(Fluids.LAVA, 9));
+            var tank2 = LootItem.lootTableItem(InitItems.TANK_BACKPACK.get()).apply(new SetTankCountFunction.Builder(Fluids.LAVA, 4));
+            var tank3 = LootItem.lootTableItem(InitItems.TANK_BACKPACK.get()).apply(new SetTankCountFunction.Builder(Fluids.LAVA, 3));
+
+            this.output.accept(TANK_BACKPACK, LootTable.lootTable().withPool(LootPool.lootPool()
+                    .setRolls(ContextIntProviders.exactly(1))
+                    .add(tank1).add(tank2).add(tank3)
+                    .add(EmptyLootItem.emptyItem().setWeight(12))));
+
+            this.output.accept(ENDER_CHEST_BACKPACK, LootTable.lootTable().withPool(LootPool.lootPool()
+                    .setRolls(ContextIntProviders.exactly(1))
+                    .add(LootItem.lootTableItem(InitItems.ENDER_CHEST_BACKPACK.get()).setWeight(1))
+                    .add(EmptyLootItem.emptyItem().setWeight(4))));
 
             this.output.accept(NORMAL_BAUBLE, LootTable.lootTable().withPool(LootPool.lootPool()
                     .setRolls(ContextIntProviders.between(1, 3))

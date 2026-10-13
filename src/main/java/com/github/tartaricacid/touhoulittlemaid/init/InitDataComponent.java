@@ -10,6 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.item.component.CustomData;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -108,6 +109,12 @@ public class InitDataComponent {
             DATA_COMPONENTS.register(STORAGE_DATA_TAG_NAME, () -> DataComponentType.<CompoundTag>builder()
                     .persistent(CompoundTag.CODEC)
                     .networkSynchronized(ByteBufCodecs.COMPOUND_TAG)
+                    .build());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<SimpleFluidContent>> TANK_BACKPACK_FLUID =
+            DATA_COMPONENTS.register("tank_backpack_fluid", () -> DataComponentType.<SimpleFluidContent>builder()
+                    .persistent(SimpleFluidContent.CODEC)
+                    .networkSynchronized(SimpleFluidContent.STREAM_CODEC)
                     .build());
 
     public static final String SAKUYA_BELL_UUID_TAG_NAME = "sakuya_bell_uuid";
