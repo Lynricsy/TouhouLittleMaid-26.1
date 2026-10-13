@@ -3,6 +3,7 @@ package com.github.tartaricacid.touhoulittlemaid.block;
 import com.github.tartaricacid.touhoulittlemaid.advancements.maid.TriggerType;
 import com.github.tartaricacid.touhoulittlemaid.api.block.IBoardGameBlock;
 import com.github.tartaricacid.touhoulittlemaid.api.game.gomoku.Point;
+import com.github.tartaricacid.touhoulittlemaid.api.game.gomoku.GomokuCodec;
 import com.github.tartaricacid.touhoulittlemaid.api.game.gomoku.Statue;
 import com.github.tartaricacid.touhoulittlemaid.block.properties.GomokuPart;
 import com.github.tartaricacid.touhoulittlemaid.config.subconfig.MaidConfig;
@@ -14,6 +15,7 @@ import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.init.InitTrigger;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemGohei;
+import com.github.tartaricacid.touhoulittlemaid.item.ItemBoardState;
 import com.github.tartaricacid.touhoulittlemaid.network.message.GomokuClientPackage;
 import com.github.tartaricacid.touhoulittlemaid.network.message.SpawnParticlePackage;
 import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityGomoku;
@@ -23,6 +25,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -57,6 +60,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
 
@@ -288,11 +292,22 @@ public class BlockGomoku extends BlockJoy implements IBoardGameBlock {
         if (player.isCreative()) {
             InteractionResult success = this.onCreativePlayerClick(
                     level, pos, player, gomoku,
-                    centerPos, location, part
+                    centerPos, location, part, facing
             );
             if (success != null) {
                 return success;
             }
+        }
+
+        // 如果是残局道具，那么直接设置残局
+        if (itemStack.is(InitItems.GOMOKU_BOARD_STATE.get())) {
+            String[] boardState = ItemBoardState.getState(itemStack);
+            if (boardState == null || StringUtils.isEmpty(boardState[0])) {
+                return InteractionResult.FAIL;
+            }
+            gomoku.setStateData(GomokuCodec.decode(boardState[0]));
+            level.playSound(null, pos, InitSounds.GOMOKU_RESET.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
+            return InteractionResult.SUCCESS_SERVER;
         }
 
         // 然后是下棋，必须空手
@@ -388,7 +403,7 @@ public class BlockGomoku extends BlockJoy implements IBoardGameBlock {
 
     @Nullable
     private InteractionResult onCreativePlayerClick(Level level, BlockPos pos, Player player, BlockEntityGomoku gomoku,
-                                                    BlockPos centerPos, Vec3 location, GomokuPart part) {
+                                                    BlockPos centerPos, Vec3 location, GomokuPart part, Direction facing) {
         Item item = player.getMainHandItem().getItem();
 
         // 拿着御币点击，那么铺满棋盘，只剩三个位置，用来调试满棋盘
@@ -402,6 +417,14 @@ public class BlockGomoku extends BlockJoy implements IBoardGameBlock {
 
         // 如果是木棍，那么就是预设棋局模式
         if (item == Items.STICK) {
+            // 如果玩家点击的是棋盒，导出当前棋局编码
+            if (isClickChessBox(location.x, location.z, part, facing)) {
+                String result = GomokuCodec.encode(gomoku.getStateData());
+                player.sendSystemMessage(ComponentUtils.copyOnClickText(result));
+                return InteractionResult.SUCCESS;
+            }
+
+            // 否则就是预设棋局
             int[] clickPos = getChessPos(location.x, location.z, part);
             if (clickPos == null) {
                 return InteractionResult.FAIL;

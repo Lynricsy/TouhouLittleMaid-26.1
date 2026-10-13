@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_table",
+  "condition": {
+    "type": "touhou_little_maid:loot_table_type",
+    "loot_table_add": "touhou_little_maid:chest/random_board_state",
+    "loot_table_id": "minecraft:chests/village/village_cartographer",
+    "loot_table_type": "minecraft:chest"
+  },
+  "priority": 1,
+  "table": "touhou_little_maid:chest/random_board_state"
+}
