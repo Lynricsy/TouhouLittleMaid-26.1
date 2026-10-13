@@ -56,7 +56,7 @@ public class GeckoLayerMaidBanner implements GeoLayerRenderer<EntityMaidRenderSt
                 RenderType renderType = RenderTypes.entityCutout(TEXTURE);
                 submitNode.submitModel(
                         banner, Unit.INSTANCE, poseStack, renderType, light,
-                        OverlayTexture.NO_OVERLAY, state.outlineColor, null
+                        OverlayTexture.NO_OVERLAY, state.outlineColor
                 );
 
                 BannerPatternLayers patterns = state.backBanner.patterns;
@@ -68,11 +68,11 @@ public class GeckoLayerMaidBanner implements GeoLayerRenderer<EntityMaidRenderSt
                 poseStack.translate(0.75, 0.2, 0.1);
                 submitNode.submitModel(
                         flag, 0f, poseStack, light, NO_OVERLAY, -1,
-                        sprite, sprites, state.outlineColor, null
+                        sprite, sprites, state.outlineColor
                 );
                 submitPatterns(
                         sprites, poseStack, submitNode, light, NO_OVERLAY, flag,
-                        0f, true, baseColor, patterns, null
+                        0f, true, baseColor, patterns
                 );
             });
         }

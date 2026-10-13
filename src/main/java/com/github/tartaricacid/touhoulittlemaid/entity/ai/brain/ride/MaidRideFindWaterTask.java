@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.ride;
 
+import net.minecraft.world.item.component.SwingAnimation;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.fishing.IFishingType;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRateTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.fishing.FishingTypeManager;
@@ -57,7 +58,7 @@ public class MaidRideFindWaterTask extends MaidCheckRateTask {
                 worldIn.addFreshEntity(fishingHook);
 
                 worldIn.playSound(null, maid.getX(), maid.getY(), maid.getZ(), SoundEvents.FISHING_BOBBER_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (worldIn.getRandom().nextFloat() * 0.4F + 0.8F));
-                maid.swing(InteractionHand.MAIN_HAND);
+                maid.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
                 maid.getLookControl().setLookAt(centerPos);
             } else {
                 waterPos = null;

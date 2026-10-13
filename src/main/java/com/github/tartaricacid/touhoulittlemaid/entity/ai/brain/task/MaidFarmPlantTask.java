@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task;
 
+import net.minecraft.world.item.component.SwingAnimation;
 import com.github.tartaricacid.touhoulittlemaid.advancements.maid.TriggerType;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IFarmTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -59,7 +60,7 @@ public class MaidFarmPlantTask extends Behavior<EntityMaid> {
             BlockState cropState = world.getBlockState(cropPos);
             if (maid.canDestroyBlock(cropPos) && task.canHarvest(maid, cropPos, cropState)) {
                 task.harvest(maid, cropPos, cropState);
-                maid.swing(InteractionHand.MAIN_HAND);
+                maid.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
                 maid.getBrain().eraseMemory(InitBrains.TARGET_POS.get());
                 maid.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
                 if (maid.getOwner() instanceof ServerPlayer serverPlayer) {
@@ -81,7 +82,7 @@ public class MaidFarmPlantTask extends Behavior<EntityMaid> {
                         if (task.canPlant(maid, basePos, baseState, seed)) {
                             ItemStack remain = task.plant(maid, basePos, baseState, seed);
                             availableInv.insert(slot, res, remain.getCount(), tx);
-                            maid.swing(InteractionHand.MAIN_HAND);
+                            maid.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
                             maid.getBrain().eraseMemory(InitBrains.TARGET_POS.get());
                             maid.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
                             if (maid.getOwner() instanceof ServerPlayer serverPlayer) {

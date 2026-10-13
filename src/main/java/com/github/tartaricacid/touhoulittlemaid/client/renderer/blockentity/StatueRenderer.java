@@ -129,10 +129,10 @@ public class StatueRenderer implements BlockEntityRenderer<BlockEntityStatue, St
         poseStack.pushPose();
         setBaseTranslateAndPose(state, poseStack);
         poseStack.rotate(Axis.ZN.rotationDegrees(180));
-        collector.submitModel(
-                this.baseModel, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(TEXTURE),
-                state.lightCoords, OverlayTexture.NO_OVERLAY, 0, state.breakProgress
-        );
+        collector.submitModel(this.baseModel, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(TEXTURE), state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+        if (state.breakProgress != null) {
+            collector.submitCrumblingOverlay(this.baseModel, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(TEXTURE), state.lightCoords, OverlayTexture.NO_OVERLAY, -1, state.breakProgress);
+        }
         poseStack.popPose();
 
         // 渲染实体预览

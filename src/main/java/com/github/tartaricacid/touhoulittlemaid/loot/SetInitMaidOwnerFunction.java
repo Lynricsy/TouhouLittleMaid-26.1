@@ -5,6 +5,7 @@ import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemSmartSlab;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +16,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class SetInitMaidOwnerFunction extends LootItemConditionalFunction {
@@ -24,7 +25,7 @@ public class SetInitMaidOwnerFunction extends LootItemConditionalFunction {
             instance -> commonFields(instance).apply(instance, SetInitMaidOwnerFunction::new)
     );
 
-    protected SetInitMaidOwnerFunction(List<LootItemCondition> predicates) {
+    protected SetInitMaidOwnerFunction(Optional<Holder<LootItemCondition>> predicates) {
         super(predicates);
     }
 
@@ -57,7 +58,7 @@ public class SetInitMaidOwnerFunction extends LootItemConditionalFunction {
 
         @Override
         public LootItemFunction build() {
-            return new SetInitMaidOwnerFunction(this.getConditions());
+            return new SetInitMaidOwnerFunction(this.getCondition());
         }
     }
 }

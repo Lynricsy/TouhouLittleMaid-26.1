@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task;
 
+import net.minecraft.world.item.component.SwingAnimation;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.server.level.ServerLevel;
@@ -65,7 +66,7 @@ public class MaidShearTask extends MaidCheckRateTask {
                             (rand.nextFloat() - rand.nextFloat()) * 0.1F));
                 }
             });
-            maid.swing(InteractionHand.MAIN_HAND);
+            maid.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
             mainHandItem.hurtAndBreak(1, maid, EquipmentSlot.MAINHAND);
             shearableEntity = null;
         }

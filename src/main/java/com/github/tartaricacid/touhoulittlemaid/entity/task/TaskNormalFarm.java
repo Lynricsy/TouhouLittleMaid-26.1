@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.entity.task;
 
+import net.minecraft.tags.ItemTags;
 import com.github.tartaricacid.touhoulittlemaid.util.IdentifierUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IFarmTask;
 import com.github.tartaricacid.touhoulittlemaid.api.task.ISpecialCropHandler;
@@ -57,7 +58,7 @@ public class TaskNormalFarm implements IFarmTask {
 
     @Override
     public void harvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
-        boolean isDestroyMode = maid.getMainHandItem().getItem() instanceof HoeItem;
+        boolean isDestroyMode = maid.getMainHandItem().is(ItemTags.HOES);
         Block cropBlock = cropState.getBlock();
 
         // 先判断特殊情况

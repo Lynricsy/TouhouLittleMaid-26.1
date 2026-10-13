@@ -213,7 +213,7 @@ public class MaidItemManager {
     public void hurtAndBreak(ItemStack stack, int amount) {
         if (maid.level instanceof ServerLevel serverLevel) {
             stack.hurtAndBreak(amount, serverLevel, maid, stackIn -> {
-                ItemStack instance = stackIn.getDefaultInstance();
+                ItemStack instance = stackIn.getItem().getDefaultInstance();
                 ItemBreakPackage msg = new ItemBreakPackage(maid.getId(), instance);
                 NetworkHandler.sendToNearby(maid, msg);
             });

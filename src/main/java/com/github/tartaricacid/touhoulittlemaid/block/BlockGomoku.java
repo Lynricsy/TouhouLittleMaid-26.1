@@ -18,7 +18,6 @@ import com.github.tartaricacid.touhoulittlemaid.network.message.GomokuClientPack
 import com.github.tartaricacid.touhoulittlemaid.network.message.SpawnParticlePackage;
 import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityGomoku;
 import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityJoy;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -79,7 +78,6 @@ public class BlockGomoku extends BlockJoy implements IBoardGameBlock {
     public static final VoxelShape RIGHT_DOWN = Block.box(0, 0, 0, 8, 2, 8);
     public static final VoxelShape RIGHT_DOWN_WITH_BOX = Shapes.or(RIGHT_DOWN, Block.box(0, 0, 9, 5, 4, 14));
 
-    private static final MapCodec<BlockGomoku> CODEC = simpleCodec(BlockGomoku::new);
 
     public BlockGomoku(Identifier id) {
         super(BlockBehaviour.Properties.of()
@@ -462,10 +460,6 @@ public class BlockGomoku extends BlockJoy implements IBoardGameBlock {
         return null;
     }
 
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {

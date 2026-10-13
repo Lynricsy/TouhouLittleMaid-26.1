@@ -47,10 +47,10 @@ public abstract class JoyRenderer<T extends BlockEntityJoy> implements BlockEnti
         poseStack.translate(0.5, 1.5, 0.5);
         poseStack.rotate(Axis.ZN.rotationDegrees(180));
         poseStack.rotate(Axis.YN.rotationDegrees(180 - state.facing.get2DDataValue() * 90));
-        collector.submitModel(
-                this.model, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(this.texture),
-                state.lightCoords, OverlayTexture.NO_OVERLAY, 0, state.breakProgress
-        );
+        collector.submitModel(this.model, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(this.texture), state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+        if (state.breakProgress != null) {
+            collector.submitCrumblingOverlay(this.model, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(this.texture), state.lightCoords, OverlayTexture.NO_OVERLAY, -1, state.breakProgress);
+        }
         poseStack.popPose();
     }
 

@@ -4,7 +4,6 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemModelSwitcher;
 import com.github.tartaricacid.touhoulittlemaid.network.message.OpenSwitcherGuiPackage;
 import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityModelSwitcher;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -39,7 +38,6 @@ import java.util.UUID;
 
 public class BlockModelSwitcher extends BaseEntityBlock {
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
-    private static final MapCodec<BlockModelSwitcher> CODEC = simpleCodec(BlockModelSwitcher::new);
 
     public BlockModelSwitcher(Identifier id) {
         super(BlockBehaviour.Properties.of()
@@ -50,12 +48,9 @@ public class BlockModelSwitcher extends BaseEntityBlock {
                 .setValue(FACING, Direction.NORTH));
     }
 
-    public BlockModelSwitcher(Properties properties) {
-        super(properties);
-    }
 
     @Override
-    public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction direction) {
+    protected boolean shouldRedstoneWireConnectTo(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction direction) {
         Direction value = state.getValue(FACING);
         if (direction != null) {
             return direction == value.getClockWise() || direction == value.getCounterClockWise();
@@ -182,10 +177,6 @@ public class BlockModelSwitcher extends BaseEntityBlock {
         }
     }
 
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     public BlockState rotate(BlockState state, Rotation rotation) {

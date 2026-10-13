@@ -80,7 +80,7 @@ public class PackInfoButton extends FlatColorButton {
         }
 
         // 渲染文本
-        int i = getFGColor();
+        int i = getLabelTextColor();
         this.renderString(graphics, minecraft.font, i | Mth.ceil(this.alpha * 255.0F) << 24);
 
         // 下载完成，灰色遮罩

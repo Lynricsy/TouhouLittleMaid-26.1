@@ -8,4 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface LivingEntityAccessor {
     @Accessor(value = "jumping")
     boolean tlmIsJumping();
+
+    @Accessor("swingState")
+    LivingEntity.SwingState tlmGetSwingState();
 }

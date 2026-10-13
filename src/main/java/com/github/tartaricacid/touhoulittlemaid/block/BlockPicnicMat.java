@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.block;
 
+import net.minecraft.util.Prediction;
 import com.github.tartaricacid.touhoulittlemaid.block.properties.PicnicMatPart;
 import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityPicnicMat;
 import com.github.tartaricacid.touhoulittlemaid.entity.favorability.Type;
@@ -178,7 +179,7 @@ public class BlockPicnicMat extends Block implements EntityBlock {
                     }
 
                     ItemStack extract = resource.toStack(extractCount);
-                    playerIn.getInventory().placeItemBackInInventory(extract);
+                    playerIn.getInventory().placeItemBackInInventory(extract, Prediction.PREDICTED);
 
                     tx.commit();
                     picnicMatCenter.refresh();

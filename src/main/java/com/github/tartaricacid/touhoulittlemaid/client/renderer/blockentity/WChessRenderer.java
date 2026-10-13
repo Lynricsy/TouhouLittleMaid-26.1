@@ -267,10 +267,10 @@ public class WChessRenderer implements BlockEntityRenderer<BlockEntityWChess, WC
             poseStack.rotate(Axis.YN.rotationDegrees(180));
         }
 
-        submitNodeCollector.submitModel(
-                this.chessModel, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(TEXTURE),
-                state.lightCoords, OverlayTexture.NO_OVERLAY, 0, state.breakProgress
-        );
+        submitNodeCollector.submitModel(this.chessModel, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(TEXTURE), state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+        if (state.breakProgress != null) {
+            submitNodeCollector.submitCrumblingOverlay(this.chessModel, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(TEXTURE), state.lightCoords, OverlayTexture.NO_OVERLAY, -1, state.breakProgress);
+        }
 
         poseStack.popPose();
     }

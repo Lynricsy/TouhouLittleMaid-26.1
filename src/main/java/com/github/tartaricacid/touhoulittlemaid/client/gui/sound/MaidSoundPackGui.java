@@ -1,7 +1,7 @@
 package com.github.tartaricacid.touhoulittlemaid.client.gui.sound;
 
+import java.net.URI;
 import com.github.tartaricacid.touhoulittlemaid.util.IdentifierUtil;
-import com.github.tartaricacid.touhoulittlemaid.util.migrate.ScreenUtil;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.widget.button.FlatColorButton;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.widget.button.SoundElementButton;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.widget.button.SoundPackButton;
@@ -23,7 +23,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.Util;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.apache.commons.lang3.StringUtils;
 
@@ -123,12 +122,7 @@ public class MaidSoundPackGui extends Screen {
             if (StringUtils.isNotBlank(selectSoundId) && CustomSoundLoader.CACHE.containsKey(selectSoundId)) {
                 String url = CustomSoundLoader.getSoundCache(selectSoundId).info().getUrl();
                 if (StringUtils.isNotBlank(url) && minecraft != null) {
-                    ScreenUtil.setScreen(new ConfirmLinkScreen(yes -> {
-                        if (yes) {
-                            Util.getPlatform().openUri(url);
-                        }
-                        ScreenUtil.setScreen(this);
-                    }, url, false));
+                    ConfirmLinkScreen.confirmLinkNow(this, URI.create(url), false);
                 }
             }
         }).setTooltips("tooltips.touhou_little_maid.custom_sound.open_url"));

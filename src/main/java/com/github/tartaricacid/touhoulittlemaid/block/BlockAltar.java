@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.block;
 
+import net.minecraft.util.Prediction;
 import com.github.tartaricacid.touhoulittlemaid.crafting.AltarRecipe;
 import com.github.tartaricacid.touhoulittlemaid.data.PowerAttachment;
 import com.github.tartaricacid.touhoulittlemaid.init.InitDataAttachment;
@@ -153,7 +154,7 @@ public class BlockAltar extends Block implements EntityBlock {
     private void takeOutItem(Level world, BlockEntityAltar altar, Player player) {
         if (altar.isCanPlaceItem() && !ItemUtil.getStack(altar.handler, 0).isEmpty()) {
             ItemStack extractItem = ItemsUtil.extractItem(altar.handler, 0, 1, false, null);
-            player.getInventory().placeItemBackInInventory(extractItem);
+            player.getInventory().placeItemBackInInventory(extractItem, Prediction.PREDICTED);
             world.playSound(null, altar.getBlockPos(), ITEM_FRAME_REMOVE_ITEM, PLAYERS, 1, 1);
             altarCraft(world, altar, player);
         }

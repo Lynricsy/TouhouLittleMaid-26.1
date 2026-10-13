@@ -125,10 +125,10 @@ public class CChessRenderer implements BlockEntityRenderer<BlockEntityCChess, CC
             poseStack.rotate(Axis.YN.rotationDegrees(180));
         }
 
-        collector.submitModel(
-                this.chessModel, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(TEXTURE),
-                state.lightCoords, OverlayTexture.NO_OVERLAY, 0, state.breakProgress
-        );
+        collector.submitModel(this.chessModel, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(TEXTURE), state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+        if (state.breakProgress != null) {
+            collector.submitCrumblingOverlay(this.chessModel, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(TEXTURE), state.lightCoords, OverlayTexture.NO_OVERLAY, -1, state.breakProgress);
+        }
 
         poseStack.popPose();
     }

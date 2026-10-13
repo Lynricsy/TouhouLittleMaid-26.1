@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.client.gui.mod;
 
+import java.net.URI;
 import com.github.tartaricacid.touhoulittlemaid.util.migrate.ScreenUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.ActiveTextCollector;
@@ -12,7 +13,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.util.Util;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -75,12 +75,7 @@ public class OptifineScreen extends Screen {
 
     private void openUrl(String url) {
         if (StringUtils.isNotBlank(url) && minecraft != null) {
-            ScreenUtil.setScreen(new ConfirmLinkScreen(yes -> {
-                if (yes) {
-                    Util.getPlatform().openUri(url);
-                }
-                ScreenUtil.setScreen(this);
-            }, url, true));
+            ConfirmLinkScreen.confirmLinkNow(this, URI.create(url), true);
         }
     }
 }

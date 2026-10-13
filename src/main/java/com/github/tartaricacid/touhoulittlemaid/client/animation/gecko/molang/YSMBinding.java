@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.client.animation.gecko.molang;
 
+import com.github.tartaricacid.touhoulittlemaid.util.SwingUtil;
 import com.github.tartaricacid.touhoulittlemaid.client.animation.gecko.molang.functions.*;
 import com.github.tartaricacid.touhoulittlemaid.client.animation.gecko.molang.variable.FirstPersonModHideVariable;
 import com.github.tartaricacid.touhoulittlemaid.client.animation.gecko.molang.variable.LadderFacingVariable;
@@ -130,13 +131,13 @@ public class YSMBinding extends ContextBinding {
         livingEntityVar("offhand_charged_crossbow", ctx -> isChargedCrossbow(ctx, InteractionHand.OFF_HAND));
         maidEntityVar("is_fishing", YSMBinding::isFishing);
 
-        livingEntityVar("swinging", ctx -> ctx.entity().swinging);
-        livingEntityVar("swing_time", ctx -> ctx.entity().swingTime);
+        livingEntityVar("swinging", ctx -> ctx.entity().isSwinging());
+        livingEntityVar("swing_time", ctx -> SwingUtil.swingTime(ctx.entity()));
         livingEntityVar("swinging_arm", ctx -> {
-            InteractionHand hand = ctx.entity().swingingArm;
+            InteractionHand hand = SwingUtil.swingingArm(ctx.entity());
             return hand == InteractionHand.MAIN_HAND ? 0 : 1;
         });
-        livingEntityVar("attack_time", ctx -> ctx.entity().getAttackAnim(ctx.animationEvent().getPartialTick()));
+        livingEntityVar("attack_time", ctx -> ctx.entity().getSwingAnimation(ctx.animationEvent().getPartialTick()));
 
         playerVar("texture_name", new TextureNameVariable());
         playerVar("first_person_mod_hide", new FirstPersonModHideVariable());
@@ -158,7 +159,7 @@ public class YSMBinding extends ContextBinding {
         playerVar("swim_speed", ctx -> ctx.entity().getAttributeValue(NeoForgeMod.SWIM_SPEED));
         playerVar("entity_gravity", ctx -> ctx.entity().getAttributeValue(Attributes.GRAVITY));
         playerVar("step_height_addition", ctx -> ctx.entity().getAttributeValue(Attributes.STEP_HEIGHT) - 0.6);
-        playerVar("nametag_distance", ctx -> ctx.entity().getAttributeValue(NeoForgeMod.NAMETAG_DISTANCE));
+        playerVar("nametag_distance", ctx -> ctx.entity().getAttributeValue(Attributes.NAME_TAG_DISTANCE));
 
         clientPlayerVar("elytra_rot_x", ctx -> Math.toDegrees(ctx.entity().elytraAnimationState.getRotX(ctx.animationEvent().getRequestedPartialTick())));
         clientPlayerVar("elytra_rot_y", ctx -> Math.toDegrees(ctx.entity().elytraAnimationState.getRotY(ctx.animationEvent().getRequestedPartialTick())));

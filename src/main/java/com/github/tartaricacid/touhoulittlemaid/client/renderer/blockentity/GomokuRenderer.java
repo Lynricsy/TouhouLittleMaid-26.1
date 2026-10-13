@@ -139,10 +139,10 @@ public class GomokuRenderer implements BlockEntityRenderer<BlockEntityGomoku, Go
             poseStack.rotate(Axis.YN.rotationDegrees(180));
         }
 
-        collector.submitModel(
-                this.boardModel, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(TEXTURE),
-                state.lightCoords, OverlayTexture.NO_OVERLAY, 0, state.breakProgress
-        );
+        collector.submitModel(this.boardModel, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(TEXTURE), state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+        if (state.breakProgress != null) {
+            collector.submitCrumblingOverlay(this.boardModel, Unit.INSTANCE, poseStack, RenderTypes.entityCutout(TEXTURE), state.lightCoords, OverlayTexture.NO_OVERLAY, -1, state.breakProgress);
+        }
 
         poseStack.popPose();
     }

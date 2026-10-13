@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.network.message;
 
+import net.minecraft.world.item.component.SwingAnimation;
 import com.github.tartaricacid.touhoulittlemaid.api.game.gomoku.Point;
 import com.github.tartaricacid.touhoulittlemaid.api.game.gomoku.Statue;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.MaidGomokuAI;
@@ -48,7 +49,7 @@ public record GomokuServerPackage(BlockPos pos, Point point) implements CustomPa
                     gomoku.setStatue(MaidGomokuAI.getStatue(gomoku.getChessData(), aiPoint));
                     statue = gomoku.getStatue();
                     if (level instanceof ServerLevel serverLevel && serverLevel.getEntity(gomoku.getSitId()) instanceof EntitySit sit && sit.getFirstPassenger() instanceof EntityMaid maid) {
-                        maid.swing(InteractionHand.MAIN_HAND);
+                        maid.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
                         if (statue == Statue.WIN) {
                             maid.getGameManager().markStatue(true);
                         }

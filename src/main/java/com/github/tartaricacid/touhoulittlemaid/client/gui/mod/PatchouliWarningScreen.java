@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.client.gui.mod;
 
+import java.net.URI;
 import com.github.tartaricacid.touhoulittlemaid.util.migrate.ScreenUtil;
 import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -10,7 +11,6 @@ import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Util;
 import org.apache.commons.lang3.StringUtils;
 
 public class PatchouliWarningScreen extends Screen {
@@ -45,12 +45,7 @@ public class PatchouliWarningScreen extends Screen {
 
     private void openUrl(String url) {
         if (StringUtils.isNotBlank(url) && minecraft != null) {
-            ScreenUtil.setScreen(new ConfirmLinkScreen(yes -> {
-                if (yes) {
-                    Util.getPlatform().openUri(url);
-                }
-                ScreenUtil.setScreen(this);
-            }, url, true));
+            ConfirmLinkScreen.confirmLinkNow(this, URI.create(url), true);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.github.tartaricacid.touhoulittlemaid.client.gui.entity;
 
+import com.mojang.blaze3d.Blaze3D;
+import java.net.URI;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.client.download.InfoGetManager;
 import com.github.tartaricacid.touhoulittlemaid.client.download.pojo.DownloadInfo;
@@ -31,7 +33,6 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
-import net.minecraft.util.Util;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -163,7 +164,7 @@ public class ModelDownloadGui extends Screen {
                         ClientPacketDistributor.sendToServer(new OpenMaidGuiPackage(this.maid.getId()));
                     }
                 }).setTooltips("gui.touhou_little_maid.skin.button.close"));
-        this.addRenderableWidget(Button.builder(Component.translatable("gui.touhou_little_maid.resources_download.open_folder"), b -> Util.getPlatform().openFile(CustomPackLoader.PACK_FOLDER.toFile()))
+        this.addRenderableWidget(Button.builder(Component.translatable("gui.touhou_little_maid.resources_download.open_folder"), b -> Blaze3D.openPath(CustomPackLoader.PACK_FOLDER))
                 .pos(x + 270, y + 218).size(150, 20).build());
     }
 
@@ -292,7 +293,7 @@ public class ModelDownloadGui extends Screen {
             }
             return true;
         } else {
-            return this.textField.isFocused() && this.textField.isVisible() && event.key() != 256 || super.keyPressed(event);
+            return this.textField.isFocused() && this.textField.isVisible() && event.key() != InputConstants.KEY_ESCAPE || super.keyPressed(event);
         }
     }
 
@@ -361,12 +362,7 @@ public class ModelDownloadGui extends Screen {
     private void openPackWebsite(DownloadInfo info) {
         String website = info.getWebsite();
         if (StringUtils.isNotBlank(website)) {
-            ScreenUtil.setScreen(new ConfirmLinkScreen(yes -> {
-                if (yes) {
-                    Util.getPlatform().openUri(website);
-                }
-                ScreenUtil.setScreen(this);
-            }, website, false));
+            ConfirmLinkScreen.confirmLinkNow(this, URI.create(website), false);
         }
     }
 

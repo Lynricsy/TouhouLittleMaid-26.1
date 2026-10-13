@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.block;
 
+import net.minecraft.world.item.component.SwingAnimation;
 import com.github.tartaricacid.touhoulittlemaid.advancements.maid.TriggerType;
 import com.github.tartaricacid.touhoulittlemaid.api.block.IBoardGameBlock;
 import com.github.tartaricacid.touhoulittlemaid.api.game.xqwlight.Position;
@@ -15,7 +16,6 @@ import com.github.tartaricacid.touhoulittlemaid.network.message.CChessToClientPa
 import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityCChess;
 import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityJoy;
 import com.github.tartaricacid.touhoulittlemaid.util.CChessUtil;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -61,7 +61,6 @@ public class BlockCChess extends BlockJoy implements IBoardGameBlock {
     public static final EnumProperty<GomokuPart> PART = EnumProperty.create("part", GomokuPart.class);
     public static final VoxelShape AABB = Block.box(0, 0, 0, 16, 2, 16);
 
-    private static final MapCodec<BlockCChess> CODEC = simpleCodec(BlockCChess::new);
 
     public BlockCChess(Identifier id) {
         super(BlockBehaviour.Properties.of()
@@ -156,7 +155,7 @@ public class BlockCChess extends BlockJoy implements IBoardGameBlock {
             && serverLevel.getEntity(sitId) instanceof EntitySit sit
             && sit.getFirstPassenger() instanceof EntityMaid maid
         ) {
-            maid.swing(InteractionHand.MAIN_HAND);
+            maid.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
             if (playerLost) {
                 maid.getGameManager().markStatue(true);
             }
@@ -412,10 +411,6 @@ public class BlockCChess extends BlockJoy implements IBoardGameBlock {
         return null;
     }
 
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {

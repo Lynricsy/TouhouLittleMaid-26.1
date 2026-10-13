@@ -13,7 +13,6 @@ import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.client.settings.KeyModifier;
-import org.lwjgl.glfw.GLFW;
 
 import static com.github.tartaricacid.touhoulittlemaid.client.init.KeyMappingRegister.MAID_CATEGORY;
 

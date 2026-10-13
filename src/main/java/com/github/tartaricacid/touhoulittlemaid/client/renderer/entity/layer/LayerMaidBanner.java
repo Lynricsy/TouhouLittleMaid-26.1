@@ -60,7 +60,7 @@ public class LayerMaidBanner extends RenderLayer<EntityMaidRenderState, EntityMa
             RenderType renderType = RenderTypes.entityCutout(TEXTURE);
             submitNode.submitModel(
                     root, Unit.INSTANCE, poseStack, renderType, light,
-                    NO_OVERLAY, state.outlineColor, null
+                    NO_OVERLAY, state.outlineColor
             );
 
             BannerPatternLayers patterns = state.backBanner.patterns;
@@ -72,11 +72,11 @@ public class LayerMaidBanner extends RenderLayer<EntityMaidRenderState, EntityMa
             poseStack.translate(0.75, 0.2, 0.1);
             submitNode.submitModel(
                     flag, 0f, poseStack, light, NO_OVERLAY, -1,
-                    sprite, sprites, state.outlineColor, null
+                    sprite, sprites, state.outlineColor
             );
             submitPatterns(
                     sprites, poseStack, submitNode, light, NO_OVERLAY, flag,
-                    0f, true, baseColor, patterns, null
+                    0f, true, baseColor, patterns
             );
 
             poseStack.popPose();

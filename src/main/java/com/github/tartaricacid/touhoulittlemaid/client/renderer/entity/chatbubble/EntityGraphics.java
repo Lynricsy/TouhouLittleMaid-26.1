@@ -36,7 +36,8 @@ public class EntityGraphics {
     }
 
     public void fill(int minX, int minY, int maxX, int maxY, int z, int color) {
-        this.fill(RenderTypes.textBackground(), minX, minY, maxX, maxY, z, color);
+        // 26.3 移除了 RenderTypes.textBackground()，改走原版文字背景提交（与文字同层，z 不再生效）
+        this.submitNode.submitTextBackground(this.poseStack, minX, minY, maxX, maxY, color, Font.DisplayMode.NORMAL, this.packedLight);
     }
 
     public void fill(RenderType renderType, int minX, int minY, int maxX, int maxY, int color) {

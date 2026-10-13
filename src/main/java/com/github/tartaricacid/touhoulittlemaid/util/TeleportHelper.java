@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.util;
 
+import net.minecraft.tags.BlockTags;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,14 +36,14 @@ public final class TeleportHelper {
 
     private static boolean teleport(EntityMaid maid, double x, double y, double z) {
         BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos(x, y, z);
-        while (blockPos.getY() > maid.level.getMinY() && !maid.level.getBlockState(blockPos).blocksMotion()) {
+        while (blockPos.getY() > maid.level.getMinY() && !maid.level.getBlockState(blockPos).is(BlockTags.ENTITIES_CAN_TELEPORT_TO)) {
             blockPos.move(Direction.DOWN);
         }
         BlockState blockState = maid.level.getBlockState(blockPos);
-        boolean isMotion = blockState.blocksMotion();
+        boolean isMotion = blockState.is(BlockTags.ENTITIES_CAN_TELEPORT_TO);
         boolean isWater = blockState.getFluidState().is(FluidTags.WATER);
         if (isMotion && !isWater) {
-            boolean teleportIsSuccess = maid.randomTeleport(x, y, z, true);
+            boolean teleportIsSuccess = maid.randomTeleport(x, y, z, true, state -> state.getFluidState().is(FluidTags.WATER));
             if (teleportIsSuccess && !maid.isSilent()) {
                 maid.level.playSound(null, maid.xo, maid.yo, maid.zo, SoundEvents.ENDERMAN_TELEPORT, maid.getSoundSource(), 1.0F, 1.0F);
                 maid.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);

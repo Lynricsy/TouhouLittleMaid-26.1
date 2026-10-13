@@ -3,7 +3,6 @@ package com.github.tartaricacid.touhoulittlemaid.block;
 import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityGarageKit;
 import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityStatue;
 import com.github.tartaricacid.touhoulittlemaid.init.InitBlocks;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -31,7 +30,6 @@ import java.util.Optional;
 
 public class BlockStatue extends HorizontalDirectionalBlock implements EntityBlock {
     public static final BooleanProperty IS_TINY = BooleanProperty.create("is_tiny");
-    private static final MapCodec<BlockStatue> CODEC = simpleCodec(BlockStatue::new);
 
     public BlockStatue(Identifier id) {
         super(BlockBehaviour.Properties.of()
@@ -140,8 +138,4 @@ public class BlockStatue extends HorizontalDirectionalBlock implements EntityBlo
         });
     }
 
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
 }

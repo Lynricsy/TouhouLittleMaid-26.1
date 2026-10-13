@@ -32,7 +32,7 @@ public class MaidMeleeAttack {
                 && context.get(nearestVisibleLivingEntities).contains(target)
             ) {
                 lookTarget.set(new EntityTracker(target, true));
-                maid.swing(InteractionHand.MAIN_HAND);
+                maid.swingForAttack(InteractionHand.MAIN_HAND);
                 maid.doHurtTarget(level, target);
                 double attackSpeed = maid.getAttributeValue(Attributes.ATTACK_SPEED);
                 if (attackSpeed > 0) {

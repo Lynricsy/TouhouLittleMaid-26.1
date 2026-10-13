@@ -8,7 +8,6 @@ import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.loot.SetInitMaidOwnerFunction;
 import com.github.tartaricacid.touhoulittlemaid.util.IdentifierUtil;
 import com.google.common.collect.Sets;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.EntityLootSubProvider;
@@ -27,12 +26,11 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemDamageFunction;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.world.level.storage.loot.providers.number.floats.ContextFloatProviders;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
 public class LootTableGenerator {
@@ -61,79 +59,79 @@ public class LootTableGenerator {
         return ResourceKey.create(Registries.LOOT_TABLE, IdentifierUtil.modLoc(name));
     }
 
-    public static record AdvancementLootTables(HolderLookup.Provider registries) implements LootTableSubProvider {
+    public static record AdvancementLootTables(LootTableSubProvider.Context output) implements LootTableSubProvider {
         @Override
-        public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
-            consumer.accept(GIVE_SMART_SLAB, LootTable.lootTable()
+        public void run() {
+            this.output.accept(GIVE_SMART_SLAB, LootTable.lootTable()
                     .withPool(LootPool.lootPool()
-                            .setRolls(ConstantValue.exactly(1))
+                            .setRolls(ContextIntProviders.exactly(1))
                             .add(LootItem.lootTableItem(InitItems.SMART_SLAB_INIT)
                                     .apply(SetInitMaidOwnerFunction.create())
                             )));
 
-            consumer.accept(ADVANCEMENT_POWER_POINT, LootTable.lootTable().withPool(LootPool.lootPool()
-                    .setRolls(ConstantValue.exactly(5))
+            this.output.accept(ADVANCEMENT_POWER_POINT, LootTable.lootTable().withPool(LootPool.lootPool()
+                    .setRolls(ContextIntProviders.exactly(5))
                     .add(LootItem.lootTableItem(InitItems.POWER_POINT.get()))));
 
-            consumer.accept(CAKE, LootTable.lootTable().withPool(LootPool.lootPool()
-                    .setRolls(ConstantValue.exactly(1))
+            this.output.accept(CAKE, LootTable.lootTable().withPool(LootPool.lootPool()
+                    .setRolls(ContextIntProviders.exactly(1))
                     .add(LootItem.lootTableItem(Items.CAKE))));
         }
     }
 
     @SuppressWarnings("all")
-    public static record ChestLootTables(HolderLookup.Provider registries) implements LootTableSubProvider {
+    public static record ChestLootTables(LootTableSubProvider.Context output) implements LootTableSubProvider {
         @Override
-        public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
-            consumer.accept(CHEST_POWER_POINT, LootTable.lootTable().withPool(LootPool.lootPool()
-                    .setRolls(ConstantValue.exactly(1))
+        public void run() {
+            this.output.accept(CHEST_POWER_POINT, LootTable.lootTable().withPool(LootPool.lootPool()
+                    .setRolls(ContextIntProviders.exactly(1))
                     .add(LootItem.lootTableItem(InitItems.POWER_POINT.get())
-                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2))))
+                            .apply(SetItemCountFunction.setCount(ContextIntProviders.between(1, 2))))
                     .add(EmptyLootItem.emptyItem().setWeight(2))));
 
-            consumer.accept(FISHING_POWER_POINT, LootTable.lootTable().withPool(LootPool.lootPool()
-                    .setRolls(ConstantValue.exactly(1))
+            this.output.accept(FISHING_POWER_POINT, LootTable.lootTable().withPool(LootPool.lootPool()
+                    .setRolls(ContextIntProviders.exactly(1))
                     .add(LootItem.lootTableItem(InitItems.POWER_POINT.get()))
                     .add(EmptyLootItem.emptyItem().setWeight(9))));
 
-            consumer.accept(SHRINE_LESS, LootTable.lootTable().withPool(LootPool.lootPool()
-                    .setRolls(ConstantValue.exactly(1))
+            this.output.accept(SHRINE_LESS, LootTable.lootTable().withPool(LootPool.lootPool()
+                    .setRolls(ContextIntProviders.exactly(1))
                     .add(LootItem.lootTableItem(InitItems.SHRINE.get()))
                     .add(EmptyLootItem.emptyItem().setWeight(9))));
 
-            consumer.accept(SHRINE_MORE, LootTable.lootTable().withPool(LootPool.lootPool()
-                    .setRolls(ConstantValue.exactly(1))
+            this.output.accept(SHRINE_MORE, LootTable.lootTable().withPool(LootPool.lootPool()
+                    .setRolls(ContextIntProviders.exactly(1))
                     .add(LootItem.lootTableItem(InitItems.SHRINE.get()))
                     .add(EmptyLootItem.emptyItem().setWeight(2))));
 
-            consumer.accept(SPAWN_BONUS, LootTable.lootTable()
+            this.output.accept(SPAWN_BONUS, LootTable.lootTable()
                     .withPool(LootPool.lootPool()
-                            .setRolls(ConstantValue.exactly(1))
+                            .setRolls(ContextIntProviders.exactly(1))
                             .add(LootItem.lootTableItem(InitItems.MAID_BACKPACK_SMALL.get()).setWeight(3))
                             .add(LootItem.lootTableItem(InitItems.MAID_BACKPACK_MIDDLE.get()).setWeight(9))
                             .add(LootItem.lootTableItem(InitItems.MAID_BACKPACK_BIG.get()).setWeight(4)))
                     .withPool(LootPool.lootPool()
-                            .setRolls(ConstantValue.exactly(1))
+                            .setRolls(ContextIntProviders.exactly(1))
                             .add(LootItem.lootTableItem(InitItems.POWER_POINT.get())
-                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 9))))
+                                    .apply(SetItemCountFunction.setCount(ContextIntProviders.between(3, 9))))
                     ));
 
-            consumer.accept(NORMAL_BACKPACK, LootTable.lootTable().withPool(LootPool.lootPool()
-                    .setRolls(ConstantValue.exactly(1))
+            this.output.accept(NORMAL_BACKPACK, LootTable.lootTable().withPool(LootPool.lootPool()
+                    .setRolls(ContextIntProviders.exactly(1))
                     .add(LootItem.lootTableItem(InitItems.MAID_BACKPACK_SMALL.get()).setWeight(3))
                     .add(LootItem.lootTableItem(InitItems.MAID_BACKPACK_MIDDLE.get()).setWeight(9))
                     .add(LootItem.lootTableItem(InitItems.MAID_BACKPACK_BIG.get()).setWeight(4))
                     .add(EmptyLootItem.emptyItem().setWeight(50))));
 
-            consumer.accept(NORMAL_BAUBLE, LootTable.lootTable().withPool(LootPool.lootPool()
-                    .setRolls(UniformGenerator.between(1, 3))
+            this.output.accept(NORMAL_BAUBLE, LootTable.lootTable().withPool(LootPool.lootPool()
+                    .setRolls(ContextIntProviders.between(1, 3))
                     // 有附魔的饰品
-                    .add(LootItem.lootTableItem(InitItems.EXPLOSION_PROTECT_BAUBLE.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.registries)))
-                    .add(LootItem.lootTableItem(InitItems.FIRE_PROTECT_BAUBLE.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.registries)))
-                    .add(LootItem.lootTableItem(InitItems.PROJECTILE_PROTECT_BAUBLE.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.registries)))
-                    .add(LootItem.lootTableItem(InitItems.MAGIC_PROTECT_BAUBLE.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.registries)))
-                    .add(LootItem.lootTableItem(InitItems.FALL_PROTECT_BAUBLE.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.registries)))
-                    .add(LootItem.lootTableItem(InitItems.DROWN_PROTECT_BAUBLE.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.registries)))
+                    .add(LootItem.lootTableItem(InitItems.EXPLOSION_PROTECT_BAUBLE.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.output.lookup(Registries.ENCHANTMENT))))
+                    .add(LootItem.lootTableItem(InitItems.FIRE_PROTECT_BAUBLE.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.output.lookup(Registries.ENCHANTMENT))))
+                    .add(LootItem.lootTableItem(InitItems.PROJECTILE_PROTECT_BAUBLE.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.output.lookup(Registries.ENCHANTMENT))))
+                    .add(LootItem.lootTableItem(InitItems.MAGIC_PROTECT_BAUBLE.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.output.lookup(Registries.ENCHANTMENT))))
+                    .add(LootItem.lootTableItem(InitItems.FALL_PROTECT_BAUBLE.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.output.lookup(Registries.ENCHANTMENT))))
+                    .add(LootItem.lootTableItem(InitItems.DROWN_PROTECT_BAUBLE.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.output.lookup(Registries.ENCHANTMENT))))
                     // 没有附魔的饰品
                     .add(LootItem.lootTableItem(InitItems.EXPLOSION_PROTECT_BAUBLE.get()).setWeight(4))
                     .add(LootItem.lootTableItem(InitItems.FIRE_PROTECT_BAUBLE.get()).setWeight(4))
@@ -144,35 +142,35 @@ public class LootTableGenerator {
                     // 其他
                     .add(EmptyLootItem.emptyItem().setWeight(90))));
 
-            consumer.accept(RARE_BAUBLE, LootTable.lootTable().withPool(LootPool.lootPool()
-                    .setRolls(UniformGenerator.between(1, 2))
-                    .add(LootItem.lootTableItem(InitItems.NIMBLE_FABRIC.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.registries)))
+            this.output.accept(RARE_BAUBLE, LootTable.lootTable().withPool(LootPool.lootPool()
+                    .setRolls(ContextIntProviders.between(1, 2))
+                    .add(LootItem.lootTableItem(InitItems.NIMBLE_FABRIC.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.output.lookup(Registries.ENCHANTMENT))))
                     .add(LootItem.lootTableItem(InitItems.NIMBLE_FABRIC.get()))
                     .add(LootItem.lootTableItem(InitItems.ITEM_MAGNET_BAUBLE.get()))
                     .add(EmptyLootItem.emptyItem().setWeight(6))));
 
-            consumer.accept(VERY_RARE_BAUBLE, LootTable.lootTable().withPool(LootPool.lootPool()
-                    .setRolls(ConstantValue.exactly(1))
-                    .add(LootItem.lootTableItem(InitItems.ULTRAMARINE_ORB_ELIXIR.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.registries)))
+            this.output.accept(VERY_RARE_BAUBLE, LootTable.lootTable().withPool(LootPool.lootPool()
+                    .setRolls(ContextIntProviders.exactly(1))
+                    .add(LootItem.lootTableItem(InitItems.ULTRAMARINE_ORB_ELIXIR.get()).apply(EnchantRandomlyFunction.randomApplicableEnchantment(this.output.lookup(Registries.ENCHANTMENT))))
                     .add(LootItem.lootTableItem(InitItems.ULTRAMARINE_ORB_ELIXIR.get()).setWeight(2))
                     .add(EmptyLootItem.emptyItem().setWeight(4))));
 
-            var setDamage = SetItemDamageFunction.setDamage(UniformGenerator.between(0.06f, 0.1f));
-            consumer.accept(STRUCTURE_SPAWN_MAID_GIFT, LootTable.lootTable()
+            var setDamage = SetItemDamageFunction.setDamage(ContextFloatProviders.between(0.06f, 0.1f));
+            this.output.accept(STRUCTURE_SPAWN_MAID_GIFT, LootTable.lootTable()
                     .withPool(LootPool.lootPool()
-                            .setRolls(UniformGenerator.between(1, 2))
+                            .setRolls(ContextIntProviders.between(1, 2))
                             .add(LootItem.lootTableItem(Items.CAKE)))
                     .withPool(LootPool.lootPool()
-                            .setRolls(ConstantValue.exactly(1))
+                            .setRolls(ContextIntProviders.exactly(1))
                             .add(LootItem.lootTableItem(InitItems.CAMERA.get()).apply(setDamage))));
 
-            consumer.accept(MAID_BURIED_TREASURE, LootTable.lootTable()
+            this.output.accept(MAID_BURIED_TREASURE, LootTable.lootTable()
                     .withPool(LootPool.lootPool()
-                            .setRolls(ConstantValue.exactly(1))
+                            .setRolls(ContextIntProviders.exactly(1))
                             .add(LootItem.lootTableItem(InitItems.SMART_SLAB_EMPTY.get()))
                             .add(EmptyLootItem.emptyItem().setWeight(4)))
                     .withPool(LootPool.lootPool()
-                            .setRolls(ConstantValue.exactly(1))
+                            .setRolls(ContextIntProviders.exactly(1))
                             .add(LootItem.lootTableItem(InitItems.SHRINE.get()))
                             .add(EmptyLootItem.emptyItem())));
 
@@ -182,14 +180,14 @@ public class LootTableGenerator {
     public static class EntityLootTables extends EntityLootSubProvider {
         public final Set<EntityType<?>> knownEntities = Sets.newHashSet();
 
-        protected EntityLootTables(HolderLookup.Provider registries) {
-            super(FeatureFlags.REGISTRY.allFlags(), registries);
+        public EntityLootTables(LootTableSubProvider.Context output) {
+            super(FeatureFlags.REGISTRY.allFlags(), output);
         }
 
         @Override
         public void generate() {
             add(InitEntities.BOX.get(), LootTable.lootTable().withPool(LootPool.lootPool()
-                    .setRolls(ConstantValue.exactly(1))
+                    .setRolls(ContextIntProviders.exactly(1))
                     .add(LootItem.lootTableItem(Items.PAPER))));
         }
 
@@ -213,8 +211,8 @@ public class LootTableGenerator {
     public static class BlockLootTables extends BlockLootSubProvider {
         public final Set<Block> knownBlocks = new HashSet<>();
 
-        public BlockLootTables(HolderLookup.Provider provider) {
-            super(Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
+        public BlockLootTables(LootTableSubProvider.Context output) {
+            super(Set.of(), FeatureFlags.REGISTRY.allFlags(), output);
         }
 
         @Override

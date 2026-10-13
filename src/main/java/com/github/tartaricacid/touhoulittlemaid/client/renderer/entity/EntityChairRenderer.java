@@ -151,8 +151,8 @@ public class EntityChairRenderer extends LivingEntityRenderer<EntityChair, Entit
     }
 
     @Override
-    protected AABB getBoundingBoxForCulling(EntityChair chair) {
-        AABB aabb = super.getBoundingBoxForCulling(chair);
+    protected AABB getBoundingBoxForCulling(EntityChair chair, float partialTick) {
+        AABB aabb = super.getBoundingBoxForCulling(chair, partialTick);
         String modelId = chair.getModelId();
         return CustomPackLoader.CHAIR_MODELS.getModel(modelId).map(model -> {
             Vec3 position = chair.position();

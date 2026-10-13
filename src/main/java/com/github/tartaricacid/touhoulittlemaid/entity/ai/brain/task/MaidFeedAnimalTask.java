@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task;
 
+import net.minecraft.world.item.component.SwingAnimation;
 import com.github.tartaricacid.touhoulittlemaid.advancements.maid.TriggerType;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitTrigger;
@@ -63,7 +64,7 @@ public class MaidFeedAnimalTask extends MaidCheckRateTask {
                 if (slot != -1) {
                     ItemStack food = ItemsUtil.extractItem(availableInv, slot, 1, false, null);
                     if (!food.isEmpty()) {
-                        maid.swing(InteractionHand.MAIN_HAND);
+                        maid.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
                         feedEntity.setInLove(null);
                         if (maid.getOwner() instanceof ServerPlayer serverPlayer) {
                             InitTrigger.MAID_EVENT.get().trigger(serverPlayer, TriggerType.MAID_FEED_ANIMAL);

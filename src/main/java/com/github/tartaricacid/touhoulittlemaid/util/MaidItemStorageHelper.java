@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.util;
 
+import net.minecraft.util.Prediction;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAndItemTransformEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.data.BackpackData;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -67,7 +68,7 @@ public final class MaidItemStorageHelper {
         }
 
         MaidItemStorageHelper.saveMaid(photo, maid, Consumers.nop());
-        playerIn.getInventory().placeItemBackInInventory(photo);
+        playerIn.getInventory().placeItemBackInInventory(photo, Prediction.SERVER_ONLY);
     }
 
     /**

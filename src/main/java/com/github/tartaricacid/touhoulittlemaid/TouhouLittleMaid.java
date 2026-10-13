@@ -65,7 +65,7 @@ public final class TouhouLittleMaid {
     }
 
     private static void registerConfiguration(ModContainer modContainer) {
-        modContainer.registerConfig(ModConfig.Type.COMMON, CommonConfig.init());
-        modContainer.registerConfig(ModConfig.Type.SERVER, ServerConfig.init());
+        modContainer.registerConfig(ModConfig.Type.LOCAL, CommonConfig.init());
+        modContainer.registerConfig(ModConfig.Type.SYNCED, ServerConfig.init());
     }
 }

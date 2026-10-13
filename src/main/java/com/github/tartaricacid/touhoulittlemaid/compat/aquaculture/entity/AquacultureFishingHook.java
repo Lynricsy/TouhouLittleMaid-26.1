@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.compat.aquaculture.entity;
 
+import net.minecraft.world.item.ItemStackTemplate;
 import com.github.tartaricacid.touhoulittlemaid.util.IdentifierUtil;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.projectile.MaidFishingHook;
@@ -179,7 +180,7 @@ public class AquacultureFishingHook extends MaidFishingHook implements IEntityWi
         if (rodContainer.getSlots() <= 1) {
             return;
         }
-        ItemStack bait = rodContainer.getStackInSlot(1).copy();
+        ItemStack bait = rodContainer.getTemplateInSlot(1).map(ItemStackTemplate::create).orElse(ItemStack.EMPTY);
         if (!bait.isEmpty()) {
             bait.hurtAndBreak(1, (ServerLevel) this.level, null, ignored -> {
                 bait.shrink(1);
@@ -187,9 +188,7 @@ public class AquacultureFishingHook extends MaidFishingHook implements IEntityWi
             });
 
             NonNullList<ItemStack> items = NonNullList.withSize(rodContainer.getSlots(), ItemStack.EMPTY);
-            for (int i = 0; i < rodContainer.getSlots(); i++) {
-                items.set(i, rodContainer.getStackInSlot(i).copy());
-            }
+            rodContainer.copyInto(items);
             items.set(1, bait);
             this.fishingRod.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(items));
         }

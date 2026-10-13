@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task;
 
+import net.minecraft.world.item.component.SwingAnimation;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.google.common.collect.ImmutableMap;
@@ -62,7 +63,7 @@ public class MaidMilkTask extends MaidCheckRateTask {
                 bucket.shrink(1);
                 ItemsUtil.insertItemStacked(availableInv, new ItemStack(Items.MILK_BUCKET), false, null);
             }
-            maid.swing(InteractionHand.MAIN_HAND);
+            maid.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
             maid.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
             milkTarget = null;
         }

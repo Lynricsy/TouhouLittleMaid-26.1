@@ -1,6 +1,7 @@
 package com.github.tartaricacid.touhoulittlemaid.datagen;
 
 import com.github.tartaricacid.touhoulittlemaid.loot.LootTableTypeCondition;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
@@ -12,6 +13,7 @@ import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
 import net.neoforged.neoforge.common.loot.AddTableLootModifier;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class GlobalLootModifier extends GlobalLootModifierProvider {
@@ -46,8 +48,8 @@ public class GlobalLootModifier extends GlobalLootModifierProvider {
     }
 
     private void addChestLootModifier(String name, @Nullable ResourceKey<LootTable> lootTableId, ResourceKey<LootTable> lootTableAdd) {
-        LootTableTypeCondition condition = new LootTableTypeCondition(CHEST, lootTableId, lootTableAdd);
-        this.add(name, new AddTableLootModifier(new LootItemCondition[]{condition}, 1, lootTableAdd));
+        LootItemCondition condition = new LootTableTypeCondition(CHEST, lootTableId, lootTableAdd);
+        this.add(name, new AddTableLootModifier(Optional.of(Holder.direct(condition)), 1, lootTableAdd));
     }
 
     private void addAllChestLootModifier(String name, ResourceKey<LootTable> lootTableAdd) {
@@ -55,7 +57,7 @@ public class GlobalLootModifier extends GlobalLootModifierProvider {
     }
 
     private void addFishLootModifier(String name, @Nullable ResourceKey<LootTable> lootTableId, ResourceKey<LootTable> lootTableAdd) {
-        LootTableTypeCondition condition = new LootTableTypeCondition(FISHING, lootTableId, lootTableAdd);
-        this.add(name, new AddTableLootModifier(new LootItemCondition[]{condition}, 1, lootTableAdd));
+        LootItemCondition condition = new LootTableTypeCondition(FISHING, lootTableId, lootTableAdd);
+        this.add(name, new AddTableLootModifier(Optional.of(Holder.direct(condition)), 1, lootTableAdd));
     }
 }

@@ -2,12 +2,12 @@ package com.github.tartaricacid.touhoulittlemaid.loot;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 import javax.annotation.Nullable;
@@ -38,7 +38,7 @@ public record LootTableTypeCondition(Identifier lootTableType,
     private boolean typeAreEquals(LootContext context) {
         ResourceKey<LootTable> currentLootTable = ResourceKey.create(Registries.LOOT_TABLE, context.getQueriedLootTableId());
         return context.getResolver().get(currentLootTable).map(lootTable ->
-                        Objects.equals(lootTable.value().getParamSet(), LootContextParamSets.REGISTRY.get(lootTableType)))
+                        Objects.equals(lootTable.value().getParamSet(), BuiltInRegistries.CONTEXT_KEY_SET.getValue(lootTableType)))
                 .orElse(false);
     }
 

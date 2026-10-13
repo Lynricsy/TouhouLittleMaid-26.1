@@ -6,12 +6,12 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.references.BlockItemIds;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagEntry;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 
 import java.util.concurrent.CompletableFuture;
@@ -101,27 +101,27 @@ public class TagBlock extends BlockTagsProvider {
         tag(TASK_GRASS_HARVEST)
                 .addTag(BlockTags.SMALL_FLOWERS)
                 .add(
-                        Blocks.SHORT_GRASS,
-                        Blocks.FERN,
-                        Blocks.BUSH,
-                        Blocks.DEAD_BUSH,
-                        Blocks.GLOW_LICHEN,
-                        Blocks.SUNFLOWER,
-                        Blocks.LILAC,
-                        Blocks.ROSE_BUSH,
-                        Blocks.PEONY,
-                        Blocks.TALL_GRASS,
-                        Blocks.LARGE_FERN,
-                        Blocks.HANGING_ROOTS,
-                        Blocks.PITCHER_PLANT,
-                        Blocks.PALE_MOSS_CARPET,
-                        Blocks.FIREFLY_BUSH,
-                        Blocks.WARPED_ROOTS,
-                        Blocks.NETHER_SPROUTS,
-                        Blocks.CRIMSON_ROOTS,
-                        Blocks.LEAF_LITTER,
-                        Blocks.SHORT_DRY_GRASS,
-                        Blocks.TALL_DRY_GRASS
+                        BlockItemIds.SHORT_GRASS.block(),
+                        BlockItemIds.FERN.block(),
+                        BlockItemIds.BUSH.block(),
+                        BlockItemIds.DEAD_BUSH.block(),
+                        BlockItemIds.GLOW_LICHEN.block(),
+                        BlockItemIds.SUNFLOWER.block(),
+                        BlockItemIds.LILAC.block(),
+                        BlockItemIds.ROSE_BUSH.block(),
+                        BlockItemIds.PEONY.block(),
+                        BlockItemIds.TALL_GRASS.block(),
+                        BlockItemIds.LARGE_FERN.block(),
+                        BlockItemIds.HANGING_ROOTS.block(),
+                        BlockItemIds.PITCHER_PLANT.block(),
+                        BlockItemIds.PALE_MOSS_CARPET.block(),
+                        BlockItemIds.FIREFLY_BUSH.block(),
+                        BlockItemIds.WARPED_ROOTS.block(),
+                        BlockItemIds.NETHER_SPROUTS.block(),
+                        BlockItemIds.CRIMSON_ROOTS.block(),
+                        BlockItemIds.LEAF_LITTER.block(),
+                        BlockItemIds.SHORT_DRY_GRASS.block(),
+                        BlockItemIds.TALL_DRY_GRASS.block()
                 );
 
         tag(MAID_JUMP_FORBIDDEN_BLOCK)

@@ -2,7 +2,6 @@ package com.github.tartaricacid.touhoulittlemaid.block;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.favorability.Type;
 import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityKeyboard;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.BlockGetter;
@@ -18,11 +17,7 @@ import javax.annotation.Nullable;
 
 public class BlockKeyboard extends BlockJoy {
     public static final VoxelShape SHAPE = Block.box(4, 0, 4, 12, 10, 12);
-    private static final MapCodec<BlockKeyboard> CODEC = simpleCodec(BlockKeyboard::new);
 
-    public BlockKeyboard(Properties properties) {
-        super(properties);
-    }
 
     public BlockKeyboard(Identifier id) {
         super(id);
@@ -54,8 +49,4 @@ public class BlockKeyboard extends BlockJoy {
         return SHAPE;
     }
 
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
 }

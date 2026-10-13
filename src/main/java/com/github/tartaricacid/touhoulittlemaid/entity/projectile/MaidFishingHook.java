@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.entity.projectile;
 
+import net.minecraft.world.item.component.SwingAnimation;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.advancements.maid.TriggerType;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidFishedEvent;
@@ -354,7 +355,7 @@ public class MaidFishingHook extends Projectile {
             ItemStack rodItem = maid.getMainHandItem();
             int rodDamage = this.retrieve(rodItem);
             this.hurtRod(maid, rodItem, rodDamage);
-            maid.swing(InteractionHand.MAIN_HAND);
+            maid.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
             level.playSound(
                     null, maid.getX(), maid.getY(), maid.getZ(),
                     SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.NEUTRAL,

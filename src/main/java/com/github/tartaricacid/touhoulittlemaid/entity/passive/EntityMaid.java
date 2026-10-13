@@ -234,7 +234,6 @@ public class EntityMaid extends MaidManagerHost implements CrossbowAttackMob {
     public void aiStep() {
         super.aiStep();
 
-        this.updateSwingTime();
         this.getNavigationManager().tick();
 
         if (!level.isClientSide()) {
@@ -621,8 +620,10 @@ public class EntityMaid extends MaidManagerHost implements CrossbowAttackMob {
     }
 
     @Override
-    public void startSleeping(BlockPos pos) {
-        super.startSleeping(pos);
+    public boolean startSleeping(BlockPos pos) {
+        if (!super.startSleeping(pos)) {
+            return false;
+        }
 
         // 睡觉时自动满血，增加好感度，并触发睡觉成就
         this.setHealth(this.getMaxHealth());
@@ -630,6 +631,7 @@ public class EntityMaid extends MaidManagerHost implements CrossbowAttackMob {
         if (this.getOwner() instanceof ServerPlayer serverPlayer) {
             InitTrigger.MAID_EVENT.get().trigger(serverPlayer, TriggerType.MAID_SLEEP);
         }
+        return true;
     }
 
     public boolean isMaidInSittingPose() {

@@ -1,7 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.block;
 
 import com.github.tartaricacid.touhoulittlemaid.util.VoxelShapeUtils;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -43,7 +42,6 @@ public class BlockScarecrow extends HorizontalDirectionalBlock {
     protected static final VoxelShape UPPER_AABB_EAST = VoxelShapeUtils.rotateHorizontal(UPPER_AABB_NORTH, Direction.EAST);
     protected static final VoxelShape UPPER_AABB_WEST = VoxelShapeUtils.rotateHorizontal(UPPER_AABB_NORTH, Direction.WEST);
 
-    private static final MapCodec<BlockScarecrow> CODEC = simpleCodec(BlockScarecrow::new);
 
     public BlockScarecrow(Identifier id) {
         super(BlockBehaviour.Properties.of()
@@ -61,10 +59,6 @@ public class BlockScarecrow extends HorizontalDirectionalBlock {
         super(properties);
     }
 
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks,

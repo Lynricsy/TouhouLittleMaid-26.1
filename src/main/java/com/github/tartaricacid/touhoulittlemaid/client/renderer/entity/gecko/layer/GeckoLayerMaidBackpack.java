@@ -32,7 +32,7 @@ public class GeckoLayerMaidBackpack implements GeoLayerRenderer<EntityMaidRender
             if (backpackModel != null && backpackTexture != null) {
                 submitNode.submitModel(
                         backpackModel, state, poseStack, RenderTypes.entityCutout(backpackTexture),
-                        state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor, null
+                        state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor
                 );
             }
         });

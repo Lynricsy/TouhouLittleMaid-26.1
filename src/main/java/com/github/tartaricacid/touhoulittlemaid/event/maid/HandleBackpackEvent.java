@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.event.maid;
 
+import net.minecraft.util.Prediction;
 import com.github.tartaricacid.touhoulittlemaid.advancements.maid.TriggerType;
 import com.github.tartaricacid.touhoulittlemaid.api.backpack.IMaidBackpack;
 import com.github.tartaricacid.touhoulittlemaid.api.event.InteractMaidEvent;
@@ -26,7 +27,7 @@ public class HandleBackpackEvent {
             if (maid.isOwnedBy(player) && !maid.backpackHasDelay() && maidBackpack != BackpackManager.getEmptyBackpack()) {
                 maid.setBackpackDelay();
                 player.getCooldowns().addCooldown(stack, 20);
-                player.getInventory().placeItemBackInInventory(maidBackpack.getTakeOffItemStack(stack, player, maid));
+                player.getInventory().placeItemBackInInventory(maidBackpack.getTakeOffItemStack(stack, player, maid), Prediction.SERVER_ONLY);
                 maidBackpack.onTakeOff(stack, player, maid);
                 maid.setMaidBackpackType(BackpackManager.getEmptyBackpack());
                 stack.hurtAndBreak(1, player, event.getPlayer().getEquipmentSlotForItem(stack));
@@ -38,7 +39,7 @@ public class HandleBackpackEvent {
                 if (maid.isOwnedBy(player) && !maid.backpackHasDelay() && backpack != BackpackManager.getEmptyBackpack() && backpack != maidBackpack) {
                     maid.setBackpackDelay();
                     BackpackManager.addBackpackCooldown(player);
-                    player.getInventory().placeItemBackInInventory(maidBackpack.getTakeOffItemStack(stack, player, maid));
+                    player.getInventory().placeItemBackInInventory(maidBackpack.getTakeOffItemStack(stack, player, maid), Prediction.SERVER_ONLY);
                     maidBackpack.onTakeOff(stack, player, maid);
                     maid.setMaidBackpackType(backpack);
                     backpack.onPutOn(stack, player, maid);

@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.client.extensions.common.IClientBlockExtensions;
 
@@ -22,11 +21,10 @@ import java.util.Optional;
 
 public class BlockAltarExtensions implements IClientBlockExtensions {
     @Override
-    public boolean addHitEffects(BlockState state, Level world, HitResult target, ParticleEngine manager) {
-        if (target instanceof BlockHitResult blockTarget && world instanceof ClientLevel clientLevel) {
-            BlockPos pos = blockTarget.getBlockPos();
+    public boolean addHitEffects(BlockState state, Level world, BlockPos pos, Direction face, ParticleEngine manager) {
+        if (world instanceof ClientLevel clientLevel) {
             this.getAltar(world, pos).ifPresent(altar ->
-                    this.crack(clientLevel, pos, altar.getStorageState(), blockTarget.getDirection()));
+                    this.crack(clientLevel, pos, altar.getStorageState(), face));
         }
         return true;
     }

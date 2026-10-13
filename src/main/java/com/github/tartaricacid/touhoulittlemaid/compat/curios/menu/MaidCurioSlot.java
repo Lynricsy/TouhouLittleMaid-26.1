@@ -34,7 +34,7 @@ public class MaidCurioSlot extends ResourceHandlerSlot {
     public MaidCurioSlot(EntityMaid maid, IDynamicStackHandler handler, int index, String identifier,
                          int xPosition, int yPosition, NonNullList<Boolean> renders,
                          boolean canToggleRender) {
-        super(handler, index, xPosition, yPosition);
+        super(handler, (i, resource, amount) -> handler.setStackInSlot(i, resource.toStack(amount)), index, xPosition, yPosition);
         this.identifier = identifier;
         this.renderStatuses = renders;
         this.maid = maid;
@@ -84,10 +84,10 @@ public class MaidCurioSlot extends ResourceHandlerSlot {
     }
 
     @Override
-    public void set(@Nonnull ItemStack stack) {
+    protected void setStackCopy(@Nonnull ItemStack stack) {
         ItemStack current = this.getItem();
         boolean flag = current.isEmpty() && stack.isEmpty();
-        super.set(stack);
+        super.setStackCopy(stack);
 
         if (!flag && !ItemStack.matches(current, stack) &&
             !((AccessorEntity) maid).getFirstTick()) {

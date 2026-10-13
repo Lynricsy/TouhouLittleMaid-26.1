@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task;
 
+import net.minecraft.world.item.component.SwingAnimation;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitBrains;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
@@ -97,7 +98,7 @@ public class MaidCollectHoneyTask extends MaidCheckRateTask {
                 }
                 level.playSound(null, maid.getX(), maid.getY(), maid.getZ(), SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                 resetHoneyLevel(level, hiveBlockState, hivePos);
-                maid.swing(InteractionHand.MAIN_HAND);
+                maid.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
                 transaction.commit();
             }
         }
@@ -114,7 +115,7 @@ public class MaidCollectHoneyTask extends MaidCheckRateTask {
                 }
                 level.playSound(null, maid.getX(), maid.getY(), maid.getZ(), SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
                 resetHoneyLevel(level, hiveBlockState, hivePos);
-                maid.swing(InteractionHand.MAIN_HAND);
+                maid.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
                 maid.getMainHandItem().hurtAndBreak(1, maid, EquipmentSlot.MAINHAND);
                 transaction.commit();
                 return true;

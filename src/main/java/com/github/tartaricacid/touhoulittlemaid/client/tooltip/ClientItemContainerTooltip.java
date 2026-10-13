@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.client.tooltip;
 
+import net.minecraft.world.item.ItemStackTemplate;
 import com.github.tartaricacid.touhoulittlemaid.inventory.tooltip.ItemContainerTooltip;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -27,7 +28,7 @@ public class ClientItemContainerTooltip implements ClientTooltipComponent {
     @Override
     public void extractImage(Font font, int pX, int pY, int w, int h, GuiGraphicsExtractor graphics) {
         for (int i = 0; i < contents.getSlots(); i++) {
-            ItemStack stack = contents.getStackInSlot(i);
+            ItemStack stack = contents.getTemplateInSlot(i).map(ItemStackTemplate::create).orElse(ItemStack.EMPTY);
             int xOffset = pX + i * 20;
             graphics.item(stack, xOffset, pY);
             graphics.itemDecorations(font, stack, xOffset, pY);

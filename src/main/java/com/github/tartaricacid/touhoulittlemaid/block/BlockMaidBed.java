@@ -2,7 +2,6 @@ package com.github.tartaricacid.touhoulittlemaid.block;
 
 import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityMaidBed;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -24,11 +23,12 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BedPart;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.attribute.BedRule;
+import net.minecraft.world.attribute.EnvironmentAttribute;
+import net.minecraft.world.attribute.EnvironmentAttributes;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
@@ -39,14 +39,14 @@ import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class BlockMaidBed extends HorizontalDirectionalBlock implements EntityBlock {
+/**
+ * 女仆床：继承原版 {@link AbstractBedBlock}，使原版睡眠逻辑（startSleeping/checkBedExists/setPosToBed）
+ * 将其识别为床；玩家无法在其上睡觉。
+ */
+public class BlockMaidBed extends AbstractBedBlock implements EntityBlock {
     public static final Map<DyeColor, BlockMaidBed> COLOR_TO_BLOCK = new EnumMap<>(DyeColor.class);
 
-    public static final EnumProperty<BedPart> PART = BlockStateProperties.BED_PART;
-    public static final BooleanProperty OCCUPIED = BlockStateProperties.OCCUPIED;
-
     private static final VoxelShape BASE = Block.box(0.0, 0.0, 0.0, 16.0, 9.0, 16.0);
-    private static final MapCodec<BlockMaidBed> CODEC = simpleCodec(p -> new BlockMaidBed(p, DyeColor.PINK));
 
     private final DyeColor color;
 
@@ -61,12 +61,6 @@ public class BlockMaidBed extends HorizontalDirectionalBlock implements EntityBl
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(PART, BedPart.FOOT)
                 .setValue(OCCUPIED, false));
-        this.color = color;
-        COLOR_TO_BLOCK.put(color, this);
-    }
-
-    public BlockMaidBed(Properties properties, DyeColor color) {
-        super(properties);
         this.color = color;
         COLOR_TO_BLOCK.put(color, this);
     }
@@ -118,11 +112,6 @@ public class BlockMaidBed extends HorizontalDirectionalBlock implements EntityBl
         return super.playerWillDestroy(worldIn, pos, state, player);
     }
 
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, PART, OCCUPIED);
-    }
-
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -156,7 +145,7 @@ public class BlockMaidBed extends HorizontalDirectionalBlock implements EntityBl
 
     @Override
     public PushReaction getPistonPushReaction(BlockState state) {
-        return PushReaction.DESTROY;
+        return PushReaction.POPPED;
     }
 
     @Override
@@ -170,21 +159,29 @@ public class BlockMaidBed extends HorizontalDirectionalBlock implements EntityBl
         return false;
     }
 
-    @Override
-    public boolean isBed(BlockState state, BlockGetter world, BlockPos pos, LivingEntity sleeper) {
-        if (sleeper instanceof EntityMaid) {
-            return true;
-        }
-        return super.isBed(state, world, pos, sleeper);
-    }
 
     private Direction getNeighbourDirection(BedPart part, Direction direction) {
         return part == BedPart.FOOT ? direction : direction.getOpposite();
     }
 
     @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        // 女仆床不供玩家睡觉
+        return InteractionResult.PASS;
+    }
+
+    @Override
+    protected EnvironmentAttribute<BedRule> getBedEnvironmentAttribute() {
+        return EnvironmentAttributes.BED_RULE;
+    }
+
+    @Override
+    protected InteractionResult destroyOnUse(BlockState state, Level level, BlockPos pos, Player player) {
+        return InteractionResult.PASS;
+    }
+
+    @Override
+    protected void destroyOnLeave(Level level, BlockPos pos) {
     }
 
     @Override

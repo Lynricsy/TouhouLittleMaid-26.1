@@ -67,7 +67,7 @@ public class EntityTombstoneRenderer extends EntityRenderer<EntityTombstone, Ent
         RenderType renderType = RenderTypes.entityCutout(texture);
 
         submitNodeCollector.submitModel(this.tombstoneModel, state, poseStack, renderType, state.lightCoords,
-                OverlayTexture.NO_OVERLAY, state.outlineColor, null);
+                OverlayTexture.NO_OVERLAY, state.outlineColor);
 
         poseStack.popPose();
         if (!state.maidName.equals(Component.empty())) {

@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.ai;
 
+import net.minecraft.client.Minecraft;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.ai.manager.entity.MaidAIChatManager;
 import com.github.tartaricacid.touhoulittlemaid.ai.manager.setting.CharacterSetting;
@@ -28,13 +29,15 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.PointerBuffer;
-import org.lwjgl.system.MemoryStack;
-import org.lwjgl.util.tinyfd.TinyFileDialogs;
+import org.lwjgl.sdl.SDLDialog;
+import org.lwjgl.sdl.SDL_DialogFileCallback;
+import org.lwjgl.sdl.SDL_DialogFileFilter;
+import org.lwjgl.system.MemoryUtil;
 
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
@@ -89,7 +92,7 @@ public class SettingEditScreen extends Screen {
 
         MutableComponent export = Component.translatable("gui.touhou_little_maid.button.maid_ai_chat_config.edit_custom_setting.export");
         this.addRenderableWidget(new FlatColorButton(posX + 265, ownerName.getY(), 128, 20, export,
-                b -> exportSetting(export)));
+                b -> exportSetting()));
 
         this.addRenderableWidget(new FlatColorButton(posX + 265, customSetting.getY(), 128, 20,
                 Component.translatable("selectWorld.edit.save"), b -> {
@@ -107,22 +110,44 @@ public class SettingEditScreen extends Screen {
                 Component.translatable("gui.back"), b -> this.onClose()));
     }
 
-    private void exportSetting(MutableComponent export) {
-        try (MemoryStack memoryStack = MemoryStack.stackPush()) {
-            String title = export.getString();
-            String defaultFileName = "%s.yml".formatted(this.maid.getName().getString());
-            String path = SettingReader.getSettingsFolder().resolve(defaultFileName).toString();
-            String fileFilter = Component.translatable("gui.touhou_little_maid.button.maid_ai_chat_config.edit_custom_setting.export.format").getString();
+    private void exportSetting() {
+        String defaultFileName = "%s.yml".formatted(this.maid.getName().getString());
+        String path = SettingReader.getSettingsFolder().resolve(defaultFileName).toString();
+        String fileFilter = Component.translatable("gui.touhou_little_maid.button.maid_ai_chat_config.edit_custom_setting.export.format").getString();
 
-            PointerBuffer filterPattern = memoryStack.mallocPointer(1);
-            filterPattern.put(memoryStack.UTF8("*.yml"));
-            filterPattern.flip();
+        // SDL 的文件对话框是异步的：过滤器与默认路径必须在回调触发前保持有效，因此使用堆内存并在回调后释放
+        ByteBuffer filterName = MemoryUtil.memUTF8(fileFilter);
+        ByteBuffer filterPattern = MemoryUtil.memUTF8("yml");
+        ByteBuffer defaultLocation = MemoryUtil.memUTF8(path);
+        SDL_DialogFileFilter.Buffer filters = SDL_DialogFileFilter.calloc(1);
+        filters.get(0).name(filterName).pattern(filterPattern);
 
-            String result = TinyFileDialogs.tinyfd_saveFileDialog(title, path, filterPattern, fileFilter);
-            if (StringUtils.isBlank(result)) {
-                return;
+        SDL_DialogFileCallback[] holder = new SDL_DialogFileCallback[1];
+        holder[0] = SDL_DialogFileCallback.create((userdata, fileList, filter) -> {
+            String picked = null;
+            if (fileList != 0L) {
+                long first = MemoryUtil.memGetAddress(fileList);
+                if (first != 0L) {
+                    picked = MemoryUtil.memUTF8(first);
+                }
             }
+            String result = picked;
+            Minecraft.getInstance().execute(() -> {
+                filters.free();
+                MemoryUtil.memFree(filterName);
+                MemoryUtil.memFree(filterPattern);
+                MemoryUtil.memFree(defaultLocation);
+                holder[0].free();
+                if (StringUtils.isNotBlank(result)) {
+                    this.doExport(result);
+                }
+            });
+        });
+        SDLDialog.SDL_ShowSaveFileDialog(holder[0], 0L, Minecraft.getInstance().getWindow().handle(), filters, defaultLocation);
+    }
 
+    private void doExport(String result) {
+        try {
             File exportFile = new File(result);
             MetaData metaData = getMetaData();
             CharacterSetting setting = new CharacterSetting(metaData, this.customSetting.getValue());

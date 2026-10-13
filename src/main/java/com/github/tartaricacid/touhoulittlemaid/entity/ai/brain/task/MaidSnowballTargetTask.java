@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task;
 
+import net.minecraft.world.item.component.SwingAnimation;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.network.message.MaidAnimationPackage;
 import com.google.common.collect.ImmutableMap;
@@ -65,9 +66,9 @@ public class MaidSnowballTargetTask extends Behavior<EntityMaid> {
             if (canThrow && canSee) {
                 canThrow = false;
                 if (owner.getMainHandItem().getItem() instanceof SnowballItem) {
-                    owner.swing(InteractionHand.MAIN_HAND);
+                    owner.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
                 } else {
-                    owner.swing(InteractionHand.OFF_HAND);
+                    owner.swing(InteractionHand.OFF_HAND, SwingAnimation.DEFAULT);
                 }
                 BehaviorUtils.lookAtEntity(owner, target);
                 performRangedAttack(owner, target);

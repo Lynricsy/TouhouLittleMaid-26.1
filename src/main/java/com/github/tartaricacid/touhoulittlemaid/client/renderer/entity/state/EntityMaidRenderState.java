@@ -1,5 +1,7 @@
 package com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.state;
 
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import com.github.tartaricacid.touhoulittlemaid.util.SwingUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.animation.IAnimation;
 import com.github.tartaricacid.touhoulittlemaid.api.backpack.IMaidBackpack;
 import com.github.tartaricacid.touhoulittlemaid.client.entity.GeckoMaidEntity;
@@ -36,7 +38,6 @@ import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.client.ClientHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -280,7 +281,7 @@ public class EntityMaidRenderState extends HumanoidRenderState {
     private static void extractBehaviorState(EntityMaid maid, EntityMaidRenderState state) {
         state.playerVehicle = maid.getVehicle() instanceof Player;
         state.sitting = maid.isMaidInSittingPose();
-        state.swingTime = maid.swingTime;
+        state.swingTime = SwingUtil.swingTime(maid);
         state.sleeping = maid.isSleeping();
         state.begging = maid.isBegging();
         state.swingingArms = maid.isSwingingArms();
@@ -358,7 +359,7 @@ public class EntityMaidRenderState extends HumanoidRenderState {
         }
 
         Vec3 bubbleOffset = maid.getAttachments().getNullable(EntityAttachment.NAME_TAG, 0, maid.getViewYRot(partialTicks));
-        if (bubbleOffset == null || !ClientHooks.isNameplateInRenderDistance(maid, state.distanceToCameraSq)) {
+        if (bubbleOffset == null || !isNameplateInRenderDistance(maid, state.distanceToCameraSq)) {
             return;
         }
 
@@ -411,5 +412,13 @@ public class EntityMaidRenderState extends HumanoidRenderState {
         if (state.modelType == ModelType.NONE) {
             state.modelType = ModelType.SIMPLE_BEDROCK;
         }
+    }
+
+    /**
+     * 26.3 移除了 ClientHooks#isNameplateInRenderDistance，改为读取原版名牌距离属性
+     */
+    private static boolean isNameplateInRenderDistance(EntityMaid maid, double distanceSq) {
+        double range = maid.getAttributeValue(Attributes.NAME_TAG_DISTANCE);
+        return distanceSq <= range * range;
     }
 }

@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.entity.item;
 
+import net.minecraft.util.Prediction;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.util.IdentifierUtil;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
@@ -100,7 +101,7 @@ public class EntityTombstone extends Entity {
                 int size = this.items.getCapacityAsInt(i, this.items.getResource(i));
                 ItemStack extractItem = ItemsUtil.extractItem(this.items, i, size, false, null);
                 if (!extractItem.isEmpty()) {
-                    player.getInventory().placeItemBackInInventory(extractItem);
+                    player.getInventory().placeItemBackInInventory(extractItem, Prediction.SERVER_ONLY);
                 }
             }
 

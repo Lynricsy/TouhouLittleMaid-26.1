@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.item;
 
+import net.minecraft.util.Prediction;
 import com.github.tartaricacid.touhoulittlemaid.advancements.maid.TriggerType;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
@@ -55,7 +56,7 @@ public class ItemCamera extends Item {
         if (maid.isAlive() && maid.isOwnedBy(playerIn) && !maid.isSleeping()) {
             ItemStack photo = InitItems.PHOTO.get().getDefaultInstance();
             MaidItemStorageHelper.saveMaid(photo, maid, Consumers.nop());
-            playerIn.getInventory().placeItemBackInInventory(photo);
+            playerIn.getInventory().placeItemBackInInventory(photo, Prediction.PREDICTED);
 
             maid.spawnExplosionParticle();
             maid.discard();

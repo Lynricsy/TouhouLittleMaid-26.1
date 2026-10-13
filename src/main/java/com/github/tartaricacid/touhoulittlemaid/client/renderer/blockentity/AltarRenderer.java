@@ -67,10 +67,10 @@ public class AltarRenderer implements BlockEntityRenderer<BlockEntityAltar, Alta
             poseStack.pushPose();
             this.setTranslateAndPose(state.direction, poseStack);
             poseStack.rotate(Axis.ZN.rotationDegrees(180));
-            collector.submitModel(
-                    this.model, Unit.INSTANCE, poseStack, RenderTypes.entityTranslucent(TEXTURE),
-                    state.lightCoords, OverlayTexture.NO_OVERLAY, 0, state.breakProgress
-            );
+            collector.submitModel(this.model, Unit.INSTANCE, poseStack, RenderTypes.entityTranslucent(TEXTURE), state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+            if (state.breakProgress != null) {
+                collector.submitCrumblingOverlay(this.model, Unit.INSTANCE, poseStack, RenderTypes.entityTranslucent(TEXTURE), state.lightCoords, OverlayTexture.NO_OVERLAY, -1, state.breakProgress);
+            }
             poseStack.popPose();
         }
 

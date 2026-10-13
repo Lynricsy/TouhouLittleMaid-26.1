@@ -2,7 +2,6 @@ package com.github.tartaricacid.touhoulittlemaid.block;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.favorability.Type;
 import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityBookshelf;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.BlockGetter;
@@ -17,7 +16,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class BlockBookshelf extends BlockJoy {
     public static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 5, 15);
-    private static final MapCodec<BlockBookshelf> CODEC = simpleCodec(BlockBookshelf::new);
 
     public BlockBookshelf(Identifier id) {
         super(id);
@@ -53,8 +51,4 @@ public class BlockBookshelf extends BlockJoy {
         return SHAPE;
     }
 
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
 }

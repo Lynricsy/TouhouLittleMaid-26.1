@@ -1,6 +1,7 @@
 package com.github.tartaricacid.touhoulittlemaid.event.maid;
 
 
+import net.minecraft.util.Prediction;
 import com.github.tartaricacid.touhoulittlemaid.advancements.maid.TriggerType;
 import com.github.tartaricacid.touhoulittlemaid.api.event.InteractMaidEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -27,7 +28,7 @@ public final class ApplyPotionEffectEvent {
             stack.getItem().finishUsingItem(stack.copy(), world, maid);
             if (!player.isCreative()) {
                 stack.shrink(1);
-                player.getInventory().placeItemBackInInventory(new ItemStack(Items.GLASS_BOTTLE));
+                player.getInventory().placeItemBackInInventory(new ItemStack(Items.GLASS_BOTTLE), Prediction.SERVER_ONLY);
             }
             maid.playSound(SoundEvents.GENERIC_DRINK.value(), 0.6f, 0.8F + world.getRandom().nextFloat() * 0.4F);
             event.setCanceled(true);
@@ -37,7 +38,7 @@ public final class ApplyPotionEffectEvent {
             maid.removeAllEffects();
             if (!player.isCreative()) {
                 stack.shrink(1);
-                player.getInventory().placeItemBackInInventory(new ItemStack(Items.BUCKET));
+                player.getInventory().placeItemBackInInventory(new ItemStack(Items.BUCKET), Prediction.SERVER_ONLY);
             }
             maid.playSound(SoundEvents.GENERIC_DRINK.value(), 0.6f, 0.8F + world.getRandom().nextFloat() * 0.4F);
             if (player instanceof ServerPlayer serverPlayer) {

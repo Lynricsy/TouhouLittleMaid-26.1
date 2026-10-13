@@ -36,7 +36,7 @@ public class SoundElementButton extends FlatColorButton {
             graphics.fillGradient(this.getX() + this.width - 1, this.getY() + 1, this.getX() + this.width, this.getY() + this.height - 1, 0xff_F3EFE0, 0xff_F3EFE0);
             graphics.fillGradient(this.getX(), this.getY() + this.height - 1, this.getX() + this.width, this.getY() + this.height, 0xff_F3EFE0, 0xff_F3EFE0);
         }
-        int i = getFGColor();
+        int i = getLabelTextColor();
         this.renderString(graphics, minecraft.font, i | Mth.ceil(this.alpha * 255.0F) << 24);
     }
 

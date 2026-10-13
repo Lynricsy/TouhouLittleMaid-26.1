@@ -24,10 +24,10 @@ public class ItemDamageableBauble extends Item {
 
     @Override
     public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
-        if (enchantment == Enchantments.MENDING && stack.is(TagItem.MAID_MENDING_BLOCKLIST_ITEM)) {
+        if (enchantment.is(Enchantments.MENDING) && stack.is(TagItem.MAID_MENDING_BLOCKLIST_ITEM)) {
             return false;
         }
-        if (enchantment == Enchantments.VANISHING_CURSE && stack.is(TagItem.MAID_VANISHING_BLOCKLIST_ITEM)) {
+        if (enchantment.is(Enchantments.VANISHING_CURSE) && stack.is(TagItem.MAID_VANISHING_BLOCKLIST_ITEM)) {
             return false;
         }
         return super.supportsEnchantment(stack, enchantment);
