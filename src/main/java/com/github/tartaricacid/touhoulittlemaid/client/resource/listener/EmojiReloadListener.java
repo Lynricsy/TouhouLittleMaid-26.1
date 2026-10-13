@@ -1,5 +1,7 @@
 package com.github.tartaricacid.touhoulittlemaid.client.resource.listener;
 
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.Minecraft;
 import com.google.common.collect.Lists;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -21,6 +23,9 @@ public class EmojiReloadListener implements ResourceManagerReloadListener {
     @Override
     public void onResourceManagerReload(ResourceManager resourceManager) {
         var paths = resourceManager.listResources(EMOJI_PATH, EmojiReloadListener::filterEmojiResource).keySet();
+        // 释放旧的 gif 动图纹理，避免重载后残留过期纹理
+        TextureManager textureManager = Minecraft.getInstance().getTextureManager();
+        EMOJI_RESOURCES.stream().filter(EmojiResource::isGif).forEach(res -> textureManager.release(res.location()));
         // 遍历获知道有哪些表情资源被加载进来了，但是不需要加载（在需要时再加载）
         EMOJI_RESOURCES.clear();
         paths.forEach(res -> EMOJI_RESOURCES.add(EmojiResource.parse(res)));

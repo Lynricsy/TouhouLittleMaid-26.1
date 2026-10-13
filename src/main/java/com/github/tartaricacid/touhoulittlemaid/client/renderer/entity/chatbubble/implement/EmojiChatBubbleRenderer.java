@@ -1,5 +1,10 @@
 package com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.chatbubble.implement;
 
+import com.github.tartaricacid.touhoulittlemaid.client.renderer.texture.GifTexture;
+import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
+import java.io.IOException;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.Minecraft;
 import com.github.tartaricacid.touhoulittlemaid.util.IdentifierUtil;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.EntityMaidRenderer;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.chatbubble.EntityGraphics;
@@ -22,15 +27,36 @@ public class EmojiChatBubbleRenderer implements IChatBubbleRenderer {
             this.width = emojiRes.width();
             this.height = emojiRes.height();
             // 如果是 gif 表情的话，需要手动注册
-            // FIXME 暂时删除 gif 动图功能
             if (emojiRes.isGif()) {
-                //this.registerGifImage();
+                this.registerGifImage();
             }
         } else {
             // 如果没有表情资源，就使用一个默认的空白资源
             this.emoji = IdentifierUtil.modLoc("textures/chat_bubble/maid_emoji/emoji_0.png");
             this.width = 24;
             this.height = 24;
+        }
+    }
+
+    private void registerGifImage() {
+        Minecraft mc = Minecraft.getInstance();
+        Identifier location = this.emoji;
+        Runnable task = () -> {
+            TextureManager textureManager = mc.getTextureManager();
+            // 若渲染先于注册触发，TextureManager 会以普通纹理占位，因此这里按类型判断而非按键判断
+            if (textureManager.byPath.get(location) instanceof GifTexture) {
+                return;
+            }
+            try {
+                textureManager.register(location, GifTexture.load(mc.getResourceManager(), location));
+            } catch (IOException e) {
+                TouhouLittleMaid.LOGGER.error("Failed to load gif texture: {}", location, e);
+            }
+        };
+        if (mc.isSameThread()) {
+            task.run();
+        } else {
+            mc.execute(task);
         }
     }
 
