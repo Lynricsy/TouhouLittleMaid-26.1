@@ -9,6 +9,7 @@ import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.gecko.Gec
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.layer.*;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.state.EntityMaidRenderState;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.state.ModelType;
+import com.github.tartaricacid.touhoulittlemaid.compat.ysm.YsmCompat;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.IdentifierUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -57,7 +58,12 @@ public class EntityMaidRenderer extends MobRenderer<EntityMaid, EntityMaidRender
         state.clear();
         super.extractRenderState(maid, state, partialTicks);
         HumanoidMobRenderer.extractHumanoidRenderState(maid, state, partialTicks, itemModelResolver);
-        EntityMaidRenderState.extractRenderState(maid, state, partialTicks, blockModelResolver, itemModelResolver, getGeckoEntity(maid));
+        // YSM 模型由 YSM 接管渲染，不需要准备女仆模组自带的 Gecko 动画
+        boolean isYsmModel = YsmCompat.isInstalled() && maid.isYsmModel();
+        EntityMaidRenderState.extractRenderState(maid, state, partialTicks, blockModelResolver, itemModelResolver, isYsmModel ? null : getGeckoEntity(maid));
+        if (isYsmModel) {
+            state.modelType = ModelType.YSM;
+        }
     }
 
     @Nullable
@@ -92,6 +98,11 @@ public class EntityMaidRenderer extends MobRenderer<EntityMaid, EntityMaidRender
             this.chatBubbleRenderer.submit(graphics);
 
             poseStack.popPose();
+        }
+
+        // YSM 接管渲染，女仆模组不再渲染模型
+        if (state.modelType == ModelType.YSM) {
+            return;
         }
 
         // GeckoLib 接管渲染

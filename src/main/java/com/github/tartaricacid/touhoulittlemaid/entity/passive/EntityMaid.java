@@ -216,6 +216,7 @@ public class EntityMaid extends MaidManagerHost implements CrossbowAttackMob {
         this.particleManager.tick();
         this.miscManager.tick();
         this.gameManager.tick();
+        this.ysmManager.tick();
     }
 
     @Override
@@ -402,6 +403,7 @@ public class EntityMaid extends MaidManagerHost implements CrossbowAttackMob {
         this.taskManager.save(output);
         this.killRecordManager.save(output);
         this.aiChatManager.save(output);
+        this.ysmManager.save(output);
     }
 
     @Override
@@ -414,6 +416,7 @@ public class EntityMaid extends MaidManagerHost implements CrossbowAttackMob {
         this.taskManager.read(input);
         this.killRecordManager.read(input);
         this.aiChatManager.read(input);
+        this.ysmManager.read(input);
 
         // 因为原版的无敌状态不会自动同步，故需要在这里手动设置同步
         this.setSyncInvulnerable(this.isInvulnerable());

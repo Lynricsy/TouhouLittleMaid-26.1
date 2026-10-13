@@ -3,6 +3,8 @@ package com.github.tartaricacid.touhoulittlemaid.client.tooltip;
 import com.github.tartaricacid.touhoulittlemaid.api.client.render.MaidRenderState;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.loader.CustomPackLoader;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.pojo.MaidModelInfo;
+import com.github.tartaricacid.touhoulittlemaid.compat.ysm.YsmCompat;
+import com.github.tartaricacid.touhoulittlemaid.entity.data.YsmData;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.inventory.tooltip.ItemMaidTooltip;
 import com.github.tartaricacid.touhoulittlemaid.util.EntityCacheUtil;
@@ -34,15 +36,26 @@ public class ClientMaidTooltip implements ClientTooltipComponent {
 
     private final @Nullable MaidModelInfo info;
     private final @Nullable Component customName;
+    private final YsmData ysmData;
     private final MutableComponent name;
 
     public ClientMaidTooltip(ItemMaidTooltip tooltip) {
         this.info = CustomPackLoader.MAID_MODELS.getInfo(tooltip.modelId()).orElse(null);
         this.customName = tooltip.customName();
-        this.name = this.getName(this.info);
+        this.ysmData = tooltip.ysmData();
+        this.name = this.getName(this.info, this.ysmData);
     }
 
-    private MutableComponent getName(@Nullable MaidModelInfo info) {
+    private MutableComponent getName(@Nullable MaidModelInfo info, YsmData ysmData) {
+        // 优先使用 YSM 模型名称
+        if (YsmCompat.isInstalled() && ysmData.isYsmModel()) {
+            if (ysmData.name().equals(Component.empty())) {
+                return Component.literal(ysmData.modelId());
+            }
+            return ysmData.name().copy();
+        }
+
+        // 然后才是默认模型名
         if (info == null) {
             return Component.empty();
         }
@@ -100,6 +113,14 @@ public class ClientMaidTooltip implements ClientTooltipComponent {
             maid.setModelId(EASTER_EGG_MODEL);
         } else {
             maid.setModelId(info.getModelId().toString());
+        }
+
+        // YSM 渲染运用
+        if (YsmCompat.isInstalled() && ysmData.isYsmModel()) {
+            maid.setIsYsmModel(true);
+            maid.setYsmModel(ysmData.modelId(), ysmData.textureId(), this.name);
+        } else {
+            maid.setIsYsmModel(false);
         }
 
         EntityRenderState renderState = extractRenderState(maid);

@@ -8,6 +8,7 @@ import com.github.tartaricacid.touhoulittlemaid.api.event.MaidTypeNameEvent;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.loader.CustomPackLoader;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.pojo.MaidModelInfo;
 import com.github.tartaricacid.touhoulittlemaid.compat.curios.CuriosCompat;
+import com.github.tartaricacid.touhoulittlemaid.compat.ysm.YsmCompat;
 import com.github.tartaricacid.touhoulittlemaid.data.MaidNumAttachment;
 import com.github.tartaricacid.touhoulittlemaid.datagen.tag.TagItem;
 import com.github.tartaricacid.touhoulittlemaid.entity.info.ServerCustomPackLoader;
@@ -192,6 +193,14 @@ public class MaidMiscManager {
         NeoForge.EVENT_BUS.post(typeNameEvent);
         if (typeNameEvent.getTypeName() != null) {
             return typeNameEvent.getTypeName();
+        }
+        // 优先使用 YSM 模型名称
+        if (YsmCompat.isInstalled() && maid.isYsmModel()) {
+            Component name = maid.getYsmModelName();
+            if (name.equals(Component.empty())) {
+                return Component.literal(maid.getYsmModelId());
+            }
+            return name;
         }
         // 然后才是默认模型名
         String modelId = maid.getModelId();

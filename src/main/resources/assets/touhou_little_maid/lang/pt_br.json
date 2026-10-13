@@ -79,6 +79,7 @@
   "tooltips.touhou_little_maid.custom_sound.credit": "Tocar o som dos créditos",
   "tooltips.touhou_little_maid.custom_sound.play_sound": "Clique para tocar o som",
   "overlay.touhou_little_maid.compass.tips": "Clique com o botão direito para mostrar a área de tarefa de sua Maid",
+  "overlay.touhou_little_maid.ysm_roulette_anim.tips": "Pressione a tecla de animações em roleta (padrão Z) para abrir a tela de animações em roleta",
   "gui.touhou_little_maid.schedule.day": "Mudança de Dia",
   "gui.touhou_little_maid.schedule.night": "Turno da noite",
   "gui.touhou_little_maid.schedule.all": "Todos Os Dias",
@@ -86,6 +87,7 @@
   "gui.touhou_little_maid.activity.idle": "Ocioso",
   "gui.touhou_little_maid.activity.rest": "Descanso",
   "gui.touhou_little_maid.button.skin": "Mudar Aparência",
+  "gui.touhou_little_maid.button.ysm_skin": "Usar skin YSM",
   "gui.touhou_little_maid.task.next_page": "Próxima Página",
   "gui.touhou_little_maid.task.previous_page": "Página Anterior",
   "gui.touhou_little_maid.task.close": "Fechar",
@@ -317,5 +319,6 @@
   "patchouli.touhou_little_maid.book.entries.overview.download_custom_model.name": "Baixar Modelo Personalizado",
   "patchouli.touhou_little_maid.book.entries.overview.download_custom_model.pages.1.text": "Você pode encontrar o botão de baixar do pacote de modelos na parte inferior da interface da empregada.",
   "patchouli.touhou_little_maid.book.entries.overview.download_custom_model.pages.2.text": "Clique nele para abrir a interface de baixar e escolha baixar o pacote de modelo que você gosta.$(br2)Os pacotes de modelos são todos feitos por jogadores. Se você também quiser publicar seu pacote de modelo personalizado, clique no botão abaixo para participar do nosso grupo do Discord e enviar seu pacote de modelo.",
-  "patchouli.touhou_little_maid.book.entries.overview.download_custom_model.pages.2.link_text": "Link do Discord"
+  "patchouli.touhou_little_maid.book.entries.overview.download_custom_model.pages.2.link_text": "Link do Discord",
+  "config.touhou_little_maid.render.enable_ysm_roulette_tip": "Ativar dica da roleta YSM"
 }

@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.item;
 
+import com.github.tartaricacid.touhoulittlemaid.compat.ysm.YsmCompat;
 import com.github.tartaricacid.touhoulittlemaid.entity.data.ProfileData;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitDataComponent;
@@ -67,7 +68,8 @@ public abstract class AbstractStoreMaidItem extends Item {
         CompoundTag tag = maidInfo.copyTag();
         String modelId = ProfileData.directGetModelId(tag);
         var customName = tag.read(TAG_CUSTOM_NAME, ComponentSerialization.CODEC).orElse(null);
-        return Optional.of(new ItemMaidTooltip(modelId, customName));
+        // YSM 渲染相关数据
+        return Optional.of(new ItemMaidTooltip(modelId, customName, YsmCompat.getYsmMaidInfo(tag)));
     }
 
     public InteractionResult spawnFromStore(UseOnContext context, Player player, Level worldIn, EntityMaid maid, Runnable runnable) {

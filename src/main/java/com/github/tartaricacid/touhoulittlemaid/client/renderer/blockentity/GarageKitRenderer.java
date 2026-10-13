@@ -6,6 +6,7 @@ import com.github.tartaricacid.touhoulittlemaid.blockentity.BlockEntityGarageKit
 import com.github.tartaricacid.touhoulittlemaid.client.model.bedrock.SimpleBedrockModel;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.blockentity.state.GarageKitRenderState;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.bedrock.InternalBedrockModelRegistry;
+import com.github.tartaricacid.touhoulittlemaid.compat.ysm.YsmCompat;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.github.tartaricacid.touhoulittlemaid.util.EntityCacheUtil;
@@ -108,7 +109,11 @@ public class GarageKitRenderer implements BlockEntityRenderer<BlockEntityGarageK
         if (entity instanceof EntityMaid maid) {
             clearMaidDataResidue(maid, true);
             maid.renderState = MaidRenderState.GARAGE_KIT;
-            maid.tickCount = 0;
+            if (YsmCompat.isInstalled() && maid.isYsmModel()) {
+                maid.tickCount = (int) level.getGameTime();
+            } else {
+                maid.tickCount = 0;
+            }
         }
 
         state.entityRenderState = dispatcher.extractEntity(entity, partialTick);

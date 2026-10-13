@@ -2,7 +2,9 @@ package com.github.tartaricacid.touhoulittlemaid.client.proxy;
 
 import com.github.tartaricacid.touhoulittlemaid.client.resource.loader.CustomPackLoader;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.pojo.MaidModelInfo;
+import com.github.tartaricacid.touhoulittlemaid.compat.ysm.YsmCompat;
 import com.github.tartaricacid.touhoulittlemaid.entity.data.ProfileData;
+import com.github.tartaricacid.touhoulittlemaid.entity.data.YsmData;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemGarageKit;
 import com.github.tartaricacid.touhoulittlemaid.util.ParseI18n;
@@ -44,6 +46,16 @@ public class ItemGarageKitProxy {
             return prefix.append(entityType.getDescription());
         }
 
+        // 优先使用 YSM 模型名称
+        YsmData ysmData = YsmCompat.getYsmMaidInfo(tag);
+        if (ysmData.isYsmModel()) {
+            if (ysmData.name().equals(Component.empty())) {
+                return prefix.append(ysmData.modelId());
+            }
+            return prefix.append(ysmData.name());
+        }
+
+        // 然后才是默认模型名
         String modelId = ProfileData.directGetModelId(tag);
         MaidModelInfo info = CustomPackLoader.MAID_MODELS.getInfo(modelId).orElse(null);
         if (info != null) {

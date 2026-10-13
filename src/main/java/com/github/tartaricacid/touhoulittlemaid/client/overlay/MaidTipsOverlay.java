@@ -2,6 +2,7 @@ package com.github.tartaricacid.touhoulittlemaid.client.overlay;
 
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
+import com.github.tartaricacid.touhoulittlemaid.compat.ysm.YsmCompat;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.util.GuiTools;
@@ -64,6 +65,7 @@ public class MaidTipsOverlay implements GuiLayer {
                 && item.is(InitItems.OWNER_CONVERSION_TOOL.get())
         );
         overlay.addSpecialTips("overlay.touhou_little_maid.remove_backpack.tips", MaidTipsOverlay::checkShears);
+        overlay.addSpecialTips("overlay.touhou_little_maid.ysm_roulette_anim.tips", MaidTipsOverlay::checkYsmRouletteAnimCondition);
 
         for (ILittleMaid littleMaid : TouhouLittleMaid.EXTENSIONS) {
             littleMaid.addMaidTips(overlay);
@@ -79,6 +81,16 @@ public class MaidTipsOverlay implements GuiLayer {
             return false;
         }
         return maid.isOwnedBy(player) && maid.hasBackpack() && item.is(Tags.Items.TOOLS_SHEAR);
+    }
+
+    private static boolean checkYsmRouletteAnimCondition(ItemStack item, EntityMaid maid, LocalPlayer player) {
+        if (!YsmCompat.isInstalled() || !ENABLE_YSM_ROULETTE_TIP.get()) {
+            return false;
+        }
+        if (Minecraft.getInstance().gui.screen() != null || !item.isEmpty()) {
+            return false;
+        }
+        return maid.isOwnedBy(player) && maid.isYsmModel();
     }
 
     private static MutableComponent checkSpecialTips(ItemStack mainhandItem, EntityMaid maid, LocalPlayer player) {

@@ -472,6 +472,12 @@ public class MenuIntegration {
                     RenderConfig.ENABLE_SHEARS_TIP.set(value);
                     RenderConfig.ENABLE_SHEARS_TIP.save();
                 }).build());
+
+        render.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid.render.enable_ysm_roulette_tip"), RenderConfig.ENABLE_YSM_ROULETTE_TIP.get())
+                .setDefaultValue(true).setSaveConsumer(value -> {
+                    RenderConfig.ENABLE_YSM_ROULETTE_TIP.set(value);
+                    RenderConfig.ENABLE_YSM_ROULETTE_TIP.save();
+                }).build());
     }
 
     public static void registerModsPage(ModContainer modContainer) {
