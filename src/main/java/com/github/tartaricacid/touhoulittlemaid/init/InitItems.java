@@ -132,6 +132,11 @@ public interface InitItems {
                     .overrideDescription("block.touhou_little_maid.wchess"))
     );
 
+    // 残局道具
+    DeferredItem<Item> GOMOKU_BOARD_STATE = ITEMS.register("gomoku_board_state", ItemBoardState::new);
+    DeferredItem<Item> CCHESS_BOARD_STATE = ITEMS.register("cchess_board_state", ItemBoardState::new);
+    DeferredItem<Item> WCHESS_BOARD_STATE = ITEMS.register("wchess_board_state", ItemBoardState::new);
+
     // 娱乐方块
     DeferredItem<Item> KEYBOARD = ITEMS.register("keyboard", id ->
             new BlockItem(InitBlocks.KEYBOARD.get(), new Item.Properties()

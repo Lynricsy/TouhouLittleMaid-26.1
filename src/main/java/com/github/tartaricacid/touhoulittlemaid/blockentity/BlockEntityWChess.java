@@ -37,6 +37,14 @@ public class BlockEntityWChess extends BlockEntityJoy implements IBoardGameEntit
         this.chessData.fromFen(WChessUtil.INIT);
     }
 
+    /**
+     * 用 FEN 字符串直接设置残局
+     */
+    public void setEndgame(String endgame) {
+        this.chessData.fromFen(endgame);
+        this.refresh();
+    }
+
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);

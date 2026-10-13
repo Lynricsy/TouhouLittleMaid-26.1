@@ -14,6 +14,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.init.InitTrigger;
+import com.github.tartaricacid.touhoulittlemaid.item.ItemBoardState;
 import com.github.tartaricacid.touhoulittlemaid.network.message.WChessToClientPackage;
 import com.github.tartaricacid.touhoulittlemaid.util.WChessUtil;
 import net.minecraft.core.BlockPos;
@@ -53,6 +54,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -261,6 +263,17 @@ public class BlockWChess extends BlockJoy implements IBoardGameBlock {
         }
 
         ItemStack heldItem = player.getMainHandItem();
+        // 如果是残局道具，那么直接设置残局
+        if (heldItem.is(InitItems.WCHESS_BOARD_STATE.get())) {
+            String[] boardState = ItemBoardState.getState(heldItem);
+            if (boardState == null || StringUtils.isEmpty(boardState[0])) {
+                return InteractionResult.FAIL;
+            }
+            chess.setEndgame(boardState[0]);
+            level.playSound(null, pos, InitSounds.GOMOKU_RESET.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
+            return InteractionResult.SUCCESS_SERVER;
+        }
+
         // 只能空手操作
         if (!heldItem.isEmpty()) {
             return InteractionResult.FAIL;
