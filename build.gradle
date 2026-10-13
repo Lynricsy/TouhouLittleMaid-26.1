@@ -76,12 +76,6 @@ repositories {
             includeGroup "curse.maven"
         }
     }
-    maven { // for TOP
-        url "https://maven.k-4u.nl/"
-        content {
-            includeGroup "mcjty.theoneprobe"
-        }
-    }
     maven {
         url = "https://maven.theillusivec4.top/"
         content {

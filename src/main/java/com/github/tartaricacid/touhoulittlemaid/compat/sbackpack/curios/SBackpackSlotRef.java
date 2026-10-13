@@ -47,13 +47,14 @@ public class SBackpackSlotRef extends CuriosSlotRef {
         }
         var wrapper = BackpackWrapper.fromStack(backpackStack);
         ITrackedContentsItemResourceHandler inv = wrapper.getInventoryForUpgradeProcessing();
+        int count = itemStack.getCount();
         try (Transaction tx = Transaction.openRoot()) {
-            ItemResource resource = ItemResource.of(itemStack);
-            int count = inv.insert(resource, itemStack.count(), tx);
+            int inserted = inv.insert(ItemResource.of(itemStack), count, tx);
             if (!simulate) {
                 tx.commit();
             }
-            return resource.toStack(count);
+            // 调用方按“剩余物品”处理返回值
+            return inserted >= count ? ItemStack.EMPTY : itemStack.copyWithCount(count - inserted);
         }
     }
 

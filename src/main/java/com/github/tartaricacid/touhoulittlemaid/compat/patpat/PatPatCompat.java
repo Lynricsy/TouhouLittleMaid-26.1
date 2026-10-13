@@ -12,6 +12,13 @@ public class PatPatCompat {
         isLoaded = ModList.get().isLoaded(PATPAT_ID);
     }
 
+    public static boolean isLoaded() {
+        return isLoaded;
+    }
+
     public static void renderPat(LivingEntity livingEntity, PoseStack matrixStack, float tickDelta) {
+        if (isLoaded) {
+            PatPatRenderer.scaleEntityIfPatted(livingEntity, matrixStack, tickDelta);
+        }
     }
 }

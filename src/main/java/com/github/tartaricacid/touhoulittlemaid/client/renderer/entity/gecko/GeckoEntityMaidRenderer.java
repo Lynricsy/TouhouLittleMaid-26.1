@@ -3,10 +3,14 @@ package com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.gecko;
 import com.github.tartaricacid.touhoulittlemaid.api.event.client.AddMaidLayerEvent;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.gecko.layer.*;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.state.EntityMaidRenderState;
+import com.github.tartaricacid.touhoulittlemaid.compat.patpat.PatPatCompat;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.GeoReplacedEntityRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -51,6 +55,14 @@ public class GeckoEntityMaidRenderer extends GeoReplacedEntityRenderer<EntityMai
 
     @Override
     protected void scale(EntityMaidRenderState state, PoseStack poseStack) {
+        // PatPat 拍头时的挤压缩放，需要实体本身，在提交阶段按 ID 取回
+        var level = Minecraft.getInstance().level;
+        if (PatPatCompat.isLoaded() && level != null && state.entityId != -1) {
+            Entity entity = level.getEntity(state.entityId);
+            if (entity instanceof LivingEntity livingEntity) {
+                PatPatCompat.renderPat(livingEntity, poseStack, state.partialTick);
+            }
+        }
         var scale = state.modelInfo.getRenderEntityScale();
         poseStack.scale(scale, scale, scale);
     }

@@ -60,11 +60,12 @@ public class ExtraContainerRequestHandler {
 
     private ItemStack transferToMaidInv(EntityMaid maid, ItemStack stack) {
         var inv = maid.getAvailableInv(false);
+        int count = stack.getCount();
         try (Transaction tx = Transaction.openRoot()) {
-            ItemResource resource = ItemResource.of(stack);
-            int count = inv.insert(resource, stack.getCount(), tx);
+            int inserted = inv.insert(ItemResource.of(stack), count, tx);
             tx.commit();
-            return resource.toStack(count);
+            // 返回未能放入的剩余物品
+            return inserted >= count ? ItemStack.EMPTY : stack.copyWithCount(count - inserted);
         }
     }
 
